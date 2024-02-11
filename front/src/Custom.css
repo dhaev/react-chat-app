@@ -1,0 +1,64 @@
+
+section {
+  font-family: 'Times New Roman', serif;
+}
+
+section.container{
+  max-width: 300px;
+  width: 300px;
+}
+
+.fill-space {
+    flex-grow: 1;
+    overflow: auto;
+  }
+  
+  .no-arrow .arrow::after {
+    display: none;
+  }
+
+.sign-in-logo{
+  max-width: 30px;
+  height: auto;
+  border-radius: 50%;
+}
+
+  .avatar {
+          max-width: 40px;
+          height: auto;
+          border-radius: 50%;
+      }
+      
+     .profile {
+      background-color: #8091e0;
+      }
+     /* .profile img {
+          max-width: 50px;
+          height: auto;
+          border-radius: 50%;
+      } */
+      /* .chat-messages {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        /* height: 100%; Adjust as needed */
+        /* overflow: auto; Add this line */
+      /* } */
+      
+      .message {
+        width: fit-content;
+        padding: 10px;
+        margin: 5px;
+      }
+      
+      .receive {
+        background-color: #dedada;
+        /* align-self: flex-start; */
+      }
+      
+      .sent {
+        background-color: #dedada;
+        /* align-self: flex-end; */
+      }
+      
