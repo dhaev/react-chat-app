@@ -1,7 +1,7 @@
 // filename: App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { getRequest } from './Axios';
+import { getRequest, apiClient } from './Axios';
 import { useGlobalState } from './GlobalStateProvider';
 
 import './Custom.css';
@@ -23,7 +23,7 @@ function App() {
           setUser(response.data.user);
         } else {
           setUser(null);
-        }
+        }  
       } catch (error) {
         console.error('Error checking auth:', error);
       }

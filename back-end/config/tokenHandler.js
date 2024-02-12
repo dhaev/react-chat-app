@@ -10,7 +10,7 @@ const crypto = require("crypto");
 
 const generateToken = async(id)=>{
     let token = await Token.findOne({userId:id});
-    // delete already exits token
+    // delete existing token
     if(token){
         await Token.deleteOne({userId:id});
     }

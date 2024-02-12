@@ -31,6 +31,7 @@
     "cookie-signature": "^1.0.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "csurf": "^1.11.0",
     "debug": "^2.6.9",
     "define-data-property": "^1.1.1",
     "depd": "^2.0.0",

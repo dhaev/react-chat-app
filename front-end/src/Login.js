@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getRequest, postRequest } from './Axios.js';
+import { getRequest, postRequest, apiClient } from './Axios.js';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from './GlobalStateProvider';
 
@@ -30,6 +30,7 @@ function Login() {
       if (response.status === 200) {
         setUser(response.data.user); 
         navigate('/home');
+        
       } else if (response.status === 400){
         setError(response.data.error);
       }
