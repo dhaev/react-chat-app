@@ -1,11 +1,11 @@
 // Import required modules
 const express = require('express');
 const mongoose = require('mongoose');
-const { check, validationResult } = require('express-validator');
+const {validationResult } = require('express-validator');
 
 // Import models and middleware
 const { User, Message, Conversation } = require("../models/user");
-const { ensureAuth, ensureGuest } = require('../middleware/auth');
+const { checkId, checkContent,checkUsername }= require('../middleware/validationcheck');
 
 // Initialize router
 const router = express.Router();
@@ -73,17 +73,7 @@ const updateUserContacts = async (userId, contactId) => {
 };
 
 // The main route handler
-router.post('/sendMessage', [
-  // Express Validator middleware for validation
-  check('senderId').trim().notEmpty().withMessage('Sender ID is required').isString().withMessage('Sender ID must be a string').isLength({ min: 24, max: 24 }).withMessage('Sender ID must be 24 characters long').escape(),
-  check('receiverId').trim().notEmpty().withMessage('Receiver ID is required').isString().withMessage('Receiver ID must be a string').isLength({ min: 24, max: 24 }).withMessage('Receiver ID must be 24 characters long').escape(),
-  check('content').trim().notEmpty().withMessage('Content is required').isString().withMessage('Content must be a string').custom(value => {
-    if(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi.test(value)) {
-      throw new Error('Content must not include script tags');
-    }
-    return true;
-  })
-], async (req, res, next) => {
+router.post('/sendMessage', [checkId('senderId'), checkId('receiverId'),checkContent()], async (req, res, next) => {
   // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -117,11 +107,7 @@ router.post('/sendMessage', [
 });
 
 //=================================get messages==========================================================================
-router.get('/getMessages', [
-  // Express Validator middleware for validation
-  check('userId').trim().notEmpty().withMessage('user ID is required').isString().withMessage('user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('user ID must be 24 characters long').escape(),
-  check('otherUserId').trim().notEmpty().withMessage('otherUser ID is required').isString().withMessage('otherUser ID must be a string').isLength({ min: 24, max: 24 }).withMessage('otherUser ID must be 24 characters long').escape(),
-], async (req, res, next) => {
+router.get('/getMessages', [checkId('userId'), checkId('otherUserId')], async (req, res, next) => {
 
     // Check for validation errors
     const errors = validationResult(req);
@@ -175,7 +161,7 @@ router.get('/getMessages', [
 router.get("/getProfile",  async (req, res, next) => {
   try { 
     const userId = req.user.id;
-    console.log("user id "+userId)
+    console.log("find csrf token "+ req)
 
     const user = await User.findOne({ 
       _id:userId
@@ -193,9 +179,7 @@ router.get("/getProfile",  async (req, res, next) => {
 
 
 //=================================get user chatlist / convos==========================================================================
-router.get('/getAllConversations',[
-  check('userId').trim().notEmpty().withMessage('user ID is required').isString().withMessage('user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('user ID must be 24 characters long').escape(),
-]
+router.get('/getAllConversations', [checkId('userId')]
 , async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -268,11 +252,7 @@ router.get('/getAllConversations',[
 });
 
 //===================
-router.get('/getSpecificConversation',[
-  check('userId').trim().notEmpty().withMessage('user ID is required').isString().withMessage('user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('user ID must be 24 characters long').escape(),
-  check('otherUserId').trim().notEmpty().withMessage('other user ID is required').isString().withMessage('other user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('other user ID must be 24 characters long').escape(),
-]
-, async (req, res, next) => {
+router.get('/getSpecificConversation', [checkId('userId'), checkId('otherUserId')], async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log("berrors "+  errors.array()[0])
@@ -327,12 +307,7 @@ router.get('/getSpecificConversation',[
 });
 
 //================================================ Delete a message for one participant================================================
-router.delete('/deleteMessageForOne',[
-  check('userId').trim().notEmpty().withMessage('user ID is required').isString().withMessage('user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('user ID must be 24 characters long').escape(),
-  check('otherUserId').trim().notEmpty().withMessage('Other user ID is required').isString().withMessage('Other user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('Other user ID must be 24 characters long').escape(),
-  check('messageId').trim().notEmpty().withMessage('Message ID is required').isString().withMessage('Message ID must be a string').isLength({ min: 24, max: 24 }).withMessage('Message ID must be 24 characters long').escape()
-  
-], async (req, res, next) => {
+router.delete('/deleteMessageForOne',[ checkId('userId'), checkId('otherUserId'), checkId('messageId')], async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -366,10 +341,7 @@ router.delete('/deleteMessageForOne',[
 });
 
 //================================================ Delete a conversation for one participant================================================
-router.delete('/deleteConversationForOne', [
-  check('userId').trim().notEmpty().withMessage('user ID is required').isString().withMessage('user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('user ID must be 24 characters long').escape(),
-  check('otherUserId').trim().notEmpty().withMessage('Other user ID is required').isString().withMessage('Other user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('Other user ID must be 24 characters long').escape(),
- ], async (req, res, next) => {
+router.delete('/deleteConversationForOne',  [checkId('userId'), checkId('otherUserId')], async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -402,10 +374,7 @@ router.delete('/deleteConversationForOne', [
 
 //================================================
 //================================================ Delete a conversation for one participant================================================
-router.put('/updateReadMessages', [
-  check('userId').trim().notEmpty().withMessage('user ID is required').isString().withMessage('user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('user ID must be 24 characters long').escape(),
-  check('otherUserId').trim().notEmpty().withMessage('Other user ID is required').isString().withMessage('Other user ID must be a string').isLength({ min: 24, max: 24 }).withMessage('Other user ID must be 24 characters long').escape(),
- ], async (req, res, next) => {
+router.put('/updateReadMessages',  [checkId('userId'), checkId('otherUserId')], async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -446,9 +415,7 @@ router.put('/updateReadMessages', [
 });
 
 //====================seacrch================
-router.get('/searchUsers',[
-  check('searchQuery').trim().notEmpty().withMessage('Search query is required').isString().withMessage('Search query must be a string').escape()
-],  async (req, res, next) => {
+router.get('/searchUsers', [...checkUsername()],  async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

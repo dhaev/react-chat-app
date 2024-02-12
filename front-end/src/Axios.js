@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-const apiClient = axios.create({
-    // baseURL: 'http://192.168.2.19:5000/', // replace with your API base URL
-    baseURL: 'http://192.168.2.19:5000/', // replace with your API base URL
+export const apiClient = axios.create({
+
+    baseURL: 'http://192.168.2.19:5000/', // replace with base URL
     withCredentials: true,
 });
 
 export async function getRequest(endpoint, params) {
-    // Your existing code here
     console.log("sending request")
     try {
         const response = await apiClient.get(endpoint, { params: params });
@@ -20,7 +19,6 @@ export async function getRequest(endpoint, params) {
 }
 
 export async function postRequest(endpoint, data) {
-    // Your existing code here
     try {
         const response = await apiClient.post(endpoint, data);
         return response;
@@ -31,7 +29,6 @@ export async function postRequest(endpoint, data) {
 }
 
 export async function deleteRequest(endpoint, data) {
-    // Your existing code here
     try {
         const response = await apiClient.delete(endpoint, { data: data });
         return response;
@@ -42,7 +39,6 @@ export async function deleteRequest(endpoint, data) {
 }
 
 export async function putRequest(endpoint, data) {
-    // Your existing code here
     try {
         const response = await apiClient.put(endpoint, data);
         return response;

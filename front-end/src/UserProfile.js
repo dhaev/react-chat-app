@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGlobalState } from './GlobalStateProvider';
-import { getRequest } from './Axios.js';
+import { getRequest, apiClient  } from './Axios.js';
 
 function UserProfile() {
   const { user, setUser } = useGlobalState();
@@ -11,7 +11,6 @@ function UserProfile() {
     try{
       const response = await getRequest('/home/logout', null);
       if(response.status === 200){
-        
         console.log("Logout successful");
       }
     } catch (error) {

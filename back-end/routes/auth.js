@@ -2,8 +2,9 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { User } = require("../models/user");
-const { check, validationResult } = require('express-validator');
+const {validationResult } = require('express-validator');
 const genPassword = require('../config/passwordUtils').genPassword;
+const { checkUsername, checkEmail, checkPassword } = require('../middleware/validationcheck')
 
 const sendEmail = require("../config/sendMail");
 const {generateToken, isValidToken} = require ("../config/tokenHandler");
@@ -19,14 +20,7 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/login'
     res.status(200).json({message: "login successful", user: req.user});
 });
 
-router.post('/register', [
-  check('uname', 'Display Name is required').trim().not().isEmpty().escape(),
-  check('uname', 'Display Name should be at least 5 characters').isLength({ min: 5 }),
-  check('email', 'Please include a valid email').trim().isEmail().normalizeEmail(),
-  check('pw', 'Please enter a password with 6 or more characters').trim().isLength({ min: 6 }).escape(),
-  check('pw', 'Password should not exceed 20 characters').isLength({ max: 20 }),
-  check('pw', 'Password should contain at least one number, one uppercase letter, one lowercase letter, and one special character').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/),
-], async (req, res, next) => {
+router.post('/register',  [...checkUsername(), checkEmail(), ...checkPassword()], async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const firstError = errors.array()[0];
@@ -55,8 +49,7 @@ router.post('/register', [
 
         // Respond with success message
         res.status(200).json({ message: "Sign up successful" });
-        // You can also redirect to another page if needed:
-        // res.redirect('http://localhost/3000/login');
+ 
     } catch (error) {
         console.error(error);
         // Handle error, maybe redirect to an error page
@@ -68,11 +61,6 @@ router.get("/forgot-pass",  (req, res)=>{
   res.render("reset")
 })
 
-// / middleware fucntion to associate connect-flash on response
-// router.use((req,res,next)=>{
-// // res.locals.message = req.flash;
-// next()
-// })
 // password reset post route
 router.post("/password-reset", async (req,res)=>{
 

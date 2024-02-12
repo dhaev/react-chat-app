@@ -11,8 +11,8 @@ const http = require('http');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require('path');
-// const dotenv = require("dotenv");
-// dotenv.config();
+const csrf = require('csurf'); 
+
 
 require("./config/googlePassport")(passport);
 require("./config/localPassport")(passport);
@@ -27,14 +27,8 @@ connectToDB()
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// View engine setup
-app.set('views', path.join(__dirname, 'public'));
-app.set('view engine', 'hbs');
-
 // Enable CORS
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:5000', 'http://google.com',
- 'http://192.168.2.19:3000', 'http://192.168.2.19:3000/', 'http://192.168.2.19:5000',
-  'http://192.168.2.19:5000/','http://192.168.1.14/'];
+const allowedOrigins = ['http://192.168.2.19:3000', 'http://192.168.2.19:3000/'];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -54,6 +48,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Use cookie-parser
 app.use(cookieParser());
+
 
 // Session middleware
 app.use(session({
