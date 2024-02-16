@@ -120,7 +120,7 @@ const getMessage = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: errors.array()[0] });
   }
-const userId = new mongoose.Types.ObjectId(req.query.userId);
+const userId = new mongoose.Types.ObjectId(req.user.id);
 const otherUserId = new mongoose.Types.ObjectId(req.query.otherUserId) ;
 
 try {
@@ -174,7 +174,7 @@ try {
 //Function to getProfile
 const getProfile =  async (req, res, next) => {
   try { 
-    // const userId = req.query.userId;
+    // const userId = req.user.id;
     const userId = req.user.id;
     console.log("find csrf token ", req)
 
@@ -200,7 +200,8 @@ const getAllConversations = async (req, res, next) => {
   }
 
   
-  const userId = new mongoose.Types.ObjectId(req.query.userId);
+  const userId = new mongoose.Types.ObjectId(req.user.id);
+ 
   try {
     const user = await User.findById(userId);
     if (!user ) {
@@ -277,7 +278,7 @@ const getSpecificConversation = async (req, res, next) => {
     return res.status(400).json({ error: errors.array()[0] });
   }
 
-  const userId = new mongoose.Types.ObjectId(req.query.userId);
+  const userId = new mongoose.Types.ObjectId(req.user.id);
   const otherUserId = new mongoose.Types.ObjectId(req.query.otherUserId);
   try {
     const user = await User.findById(userId);
@@ -331,7 +332,8 @@ const deleteMessageForOne = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { userId, otherUserId, messageId } = req.body;
+  const {otherUserId, messageId } = req.body;
+  const userId = req.user.id;
 
   try {
     const user = await User.findById(userId);
@@ -369,7 +371,8 @@ const updateReadMessages = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { userId, otherUserId} = req.body;
+  const {otherUserId} = req.body;
+  const userId = req.user.id;
 
   try {
     const user = await User.findById(userId);
@@ -439,7 +442,8 @@ const deleteConversationForOne = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { userId, otherUserId, messageId } = req.body;
+  const {otherUserId } = req.body;
+  const userId = req.user.id;
 
   try {
     const user = await User.findById(userId);
@@ -489,7 +493,8 @@ const updateUserPassword = async (req, res, next) => {
   }
 
   // Extract fields from request body
-  const { userId, oldPassword, newPassword } = req.body;
+  const { oldPassword, newPassword } = req.body;
+  const userId = req.user.id;
 
   try {
     // Find user by ID
@@ -533,7 +538,8 @@ const updateUserInfo = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { userId, email, uname } = req.body;
+  const { email, uname } = req.body;
+  const userId = req.user.id;
 
   try {
     const emailExists = await User.findOne({ email: email });
@@ -619,30 +625,30 @@ const tempFilePath = req.file.path + '.tmp';
 
 
 //================================================ Delete a conversation for one participant================================================
-router.delete('/deleteConversationForOne',  [checkId('userId'), checkId('otherUserId')], deleteConversationForOne)
+router.delete('/deleteConversationForOne',  [ checkId('otherUserId')], deleteConversationForOne)
 
 // The main route handler
 router.post('/sendMessage', [checkId('senderId'), checkId('receiverId'),checkContent('content')], sendMessage );
 
 //=================================get messages==========================================================================
-router.get('/getMessages', [checkId('userId'), checkId('otherUserId')], getMessage );
+router.get('/getMessages', [ checkId('otherUserId')], getMessage );
 
 //=================================get user==========================================================================
 router.get("/getProfile",getProfile);
 
 
 //=================================get user chatlist / convos==========================================================================
-router.get('/getAllConversations', [checkId('userId')], getAllConversations);
+router.get('/getAllConversations', getAllConversations);
 
 //===================
-router.get('/getSpecificConversation', [checkId('userId'), checkId('otherUserId')], getSpecificConversation);
+router.get('/getSpecificConversation', [ checkId('otherUserId')], getSpecificConversation);
 
 //================================================ Delete a message for one participant================================================
-router.delete('/deleteMessageForOne',[ checkId('userId'), checkId('otherUserId'), checkId('messageId')],deleteMessageForOne );
+router.delete('/deleteMessageForOne',[  checkId('otherUserId'), checkId('messageId')],deleteMessageForOne );
 
 //================================================
 //================================================ Delete a conversation for one participant================================================
-router.put('/updateReadMessages',  [checkId('userId'), checkId('otherUserId')],updateReadMessages );
+router.put('/updateReadMessages',  [ checkId('otherUserId')],updateReadMessages );
 
 //====================seacrch================
 router.get('/searchUsers', [checkContent('searchQuery')], searchUsers );

@@ -49,7 +49,7 @@ const UpdateProfile = () => {
         }
 
         try {
-            const response = await putRequest('/home/updateUserInfo', { userId: user._id, uname: trimmedUsername, email: trimmedEmail });
+            const response = await putRequest('/home/updateUserInfo', { uname: trimmedUsername, email: trimmedEmail });
             if (response.status === 200) {
                 setUser({ ...user, displayName: trimmedUsername, email: trimmedEmail });
             } else if (response.status === 400) {
