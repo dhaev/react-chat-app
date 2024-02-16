@@ -31,14 +31,14 @@ function SocketListener() {
 
     async function handleIrrelevantMessage(newMessage) {
       const targetId = user._id === newMessage.receiver ? newMessage.sender : newMessage.receiver;
-      userConversation.forEach(function (conversation) {
-      });
 
       const doesExist = userConversation.has(targetId);
 
       if (!doesExist) {
         let receiver, sender;
         try {
+
+          //setting the user as the reciver makes it easy to query for unread messages
           if (user._id === newMessage.receiver) {
             receiver = user._id;
             sender = newMessage.sender;

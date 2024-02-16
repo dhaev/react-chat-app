@@ -13,25 +13,40 @@ import Home from './Home';
 
 function App() {
   const { user, setUser } = useGlobalState();
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const checkAuth = async () => {
       console.log("trying to login")
+      const loggedIn = localStorage.getItem('loggedIn');
+      console.log("loggedIn :"+ loggedIn)
+
+      if (loggedIn !== 'true') {
+        setIsLoading(false);
+        return;
+      }
       try {
         const response = await getRequest('/home/getProfile', null);
         if (response.data.authenticated) {
           setUser(response.data.user);
+          localStorage.setItem('loggedIn', true);
+          
         } else {
+          localStorage.setItem('loggedIn', false);
           setUser(null);
         }  
       } catch (error) {
         console.error('Error checking auth:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     checkAuth();
   }, [setUser]);
 
+  if (isLoading) {
+    return <div></div>;
+  }
   return (
     <Router>
       <Routes>

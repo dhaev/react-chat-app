@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const { User } = require("../models/user");
+const { User } = require("../models/databaseSchema");
 const {validationResult } = require('express-validator');
 const genPassword = require('../config/passwordUtils').genPassword;
 const { checkUsername, checkEmail, checkPassword } = require('../middleware/validationcheck')
@@ -13,14 +13,14 @@ const flash = require("connect-flash");
 router.get('/google',  passport.authenticate('google', { scope: ['profile','email'] }));
 
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), function(req, res) {
-    res.status(200);
+    res.status(200).json({message: "login successful", user: req.user});
 });
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
     res.status(200).json({message: "login successful", user: req.user});
 });
 
-router.post('/register',  [...checkUsername(), checkEmail(), ...checkPassword()], async (req, res, next) => {
+router.post('/register',  [...checkUsername(), checkEmail(), ...checkPassword('pw')], async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const firstError = errors.array()[0];
@@ -28,10 +28,15 @@ router.post('/register',  [...checkUsername(), checkEmail(), ...checkPassword()]
     }
 
     try {
-        const existingUser = await User.findOne({ email: req.body.email });
-        if (existingUser) {
+        const emailExists = await User.findOne({ email: req.body.email });
+        if (emailExists) {
             return res.status(400).json({ error: "User with this email already exists" });
         }
+        const displayNameExists = await User.findOne({ displayName: req.body.uname });
+        if (displayNameExists) {
+            return res.status(400).json({ error: "User with this name already exists" });
+        }
+
         const saltHash = genPassword(req.body.pw);
         const salt = saltHash.salt;
         const hash = saltHash.hash;

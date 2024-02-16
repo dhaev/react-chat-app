@@ -7,11 +7,11 @@ const UserSchema = new mongoose.Schema({
   },
   displayName: {
     type: String,
-    required: false
+    required: true
   },
   email: {
     type: String,
-    required: false
+    required: true
   },
   hash: {
     type: String,
@@ -22,7 +22,8 @@ const UserSchema = new mongoose.Schema({
     required: false
   },
   image: {
-    type: String,default:"https://cdn5.vectorstock.com/i/1000x1000/43/94/default-avatar-photo-placeholder-icon-grey-vector-38594394.jpg"
+    type: String,
+    default:"https://cdn5.vectorstock.com/i/1000x1000/43/94/default-avatar-photo-placeholder-icon-grey-vector-38594394.jpg"
   },
   createdAt: {
      type: Date,
@@ -38,16 +39,20 @@ const User = mongoose.model('User', UserSchema);
 
 const MessageSchema = new mongoose.Schema({
   _id: { 
-    type: mongoose.Schema.Types.ObjectId
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   },
   sender: { 
-    type: mongoose.Schema.Types.ObjectId, ref: 'User' 
+    type: mongoose.Schema.Types.ObjectId, ref: 'User',
+    required: true
   },
   receiver: { 
-    type: mongoose.Schema.Types.ObjectId, ref: 'User' 
+    type: mongoose.Schema.Types.ObjectId, ref: 'User',
+    required: true
   },
   content: {
-     type: String
+     type: String,
+     required: true
   },
   readByReceiver: {
     type: Boolean,
@@ -56,7 +61,8 @@ const MessageSchema = new mongoose.Schema({
   include: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'
  }] ,
   timestamp: {
-     type: Date, default: Date.now 
+     type: Date,
+     default: Date.now 
   }
 });
 const Message = mongoose.model('Message', MessageSchema);

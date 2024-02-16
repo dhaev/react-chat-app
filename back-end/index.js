@@ -1,46 +1,42 @@
+require("dotenv").config();
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo");
-const connectToDB = require("./config/mongodb");
+const connectToDB = require("./config/mongodbConn");
 const cookieParser = require('cookie-parser');
 const passportSocketIo = require('passport.socketio');
-const { ensureAuth, ensureGuest } = require('./middleware/auth');
+const { ensureAuth, ensureGuest,onAuthorizeSuccess,onAuthorizeFail} = require('./middleware/auth');
+const { logger, logEvents } = require('./middleware/logger')
+const errorHandler = require('./middleware/errorHandler')
 const http = require('http');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require('path');
 const csrf = require('csurf'); 
+const corsOptions = require('./config/corsOptions')
+
+const PORT = process.env.PORT || 5000
+
+// Connect to database
+connectToDB()
+
 
 
 require("./config/googlePassport")(passport);
 require("./config/localPassport")(passport);
 
 const app = express();
+app.use(logger)
 const server = http.createServer(app);
 const io = socketio(server);
 
-// Connect to database
-connectToDB()
 
-// Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Enable CORS
-const allowedOrigins = ['http://192.168.2.19:3000', 'http://192.168.2.19:3000/'];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true
-}));
+app.use(cors(corsOptions));
 
 // Body parser middleware
 app.use(express.json());
@@ -48,7 +44,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Use cookie-parser
 app.use(cookieParser());
-
 
 // Session middleware
 app.use(session({
@@ -68,20 +63,38 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads/images/', express.static(path.join(__dirname, '/uploads/images')));
+app.use('/images/', express.static(path.join(__dirname, 'images')));
+// app.use('/uploads/videos/', express.static(path.join(__dirname, '/uploads/videos')));
+// app.use('/uploads/others/', express.static(path.join(__dirname, '/uploads/others')));
+
+
+
 // Routes
 app.use('/', require('./routes/index'));
-app.use('/auth',ensureGuest,  require('./routes/auth'));
-app.use('/home',ensureAuth,  require('./routes/home'));
+app.use('/auth', require('./routes/auth'));
+app.use('/home', require('./routes/home'));
 
-function onAuthorizeSuccess(data, accept) {
-  accept(null, true);
-}
+// app.use('/', require('./routes/index'));
+// app.use('/auth',ensureGuest,  require('./routes/auth'));
+// app.use('/home',ensureAuth,  require('./routes/home'));
 
-function onAuthorizeFail(data, message, error, accept) {
-  if (error)
-    console.log('failed connection to socket.io:', message);
-  accept(null, false);
-}
+app.all('*', (req, res) => {
+  res.status(404)
+  if (req.accepts('html')) {
+      res.sendFile(path.join(__dirname, 'views', '404.html'))
+  } else if (req.accepts('json')) {
+      res.json({ message: '404 Not Found' })
+  } else {
+      res.type('txt').send('404 Not Found')
+  }
+})
+
+app.use(errorHandler)
+
 
 io.use(passportSocketIo.authorize({
   cookieParser: cookieParser,
@@ -116,6 +129,16 @@ io.on('connection', socket => {
 });
 
 
-const PORT = 5000 || process.env.PORT;
+app.use(errorHandler)
 
-server.listen(PORT, "192.168.2.19", () => console.log(`server running on port ${PORT}`));
+mongoose.connection.once('open', () => {
+    console.log('Connected to mongodbConn')
+    server.listen(PORT, "192.168.2.19", () => console.log(`server running on port ${PORT}`));
+});
+
+mongoose.connection.on('error', err => {
+  console.log(err)
+  logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
+})
+
+module.exports = server; 

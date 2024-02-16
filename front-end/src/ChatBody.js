@@ -26,7 +26,7 @@ function ChatBody() {
 
   return (
     <div className="overflow-auto mt-auto">
-      <div className="container p-2 fill-space chat-messages d-flex flex-column align-items-start justify-content-end">
+      <div className="container fill-space chat-messages d-flex flex-column align-items-start justify-content-end">
         {chatMessage ? (
           Array.from(chatMessage.values()).map((message) => (
             <Message key={message._id} id={message._id} content={message.content} sender={message.sender} />
@@ -79,7 +79,7 @@ function CustomPopover({ id, content, item, actionTrigger, sender, user }) {
   return (
     <OverlayTrigger trigger={actionTrigger} placement="auto" overlay={popover} rootClose>
       <div id={id}
-        className={sender === user ? "d-flex flex-column align-self-end message sent" : "d-flex flex-column  align-self-start message receive"}
+        className={`d-flex flex-column  ${sender === user ? 'align-self-end message sent' : 'align-self-start message received'}`}
       >
         {content}
       </div>

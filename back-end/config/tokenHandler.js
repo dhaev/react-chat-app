@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const { Token} = require("../models/user");
+const { Token} = require("../models/databaseSchema");
 
 const genPassword = require('../config/passwordUtils').genPassword; 
 const bcrypt = require("bcrypt");

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getRequest, postRequest } from './Axios.js';
+import { useGlobalState } from './GlobalStateProvider';
 
 const Register = () => {
+    const { setUser } = useGlobalState();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,6 +16,7 @@ const Register = () => {
     //     try {
     //         const response = await getRequest('/auth/google', null);
     //         if (response.status === 200) {
+    //             setUser(response.data.user);
     //             navigate('/login'); // Redirect to Login component
     //         } else if (response.status === 400) {
     //             setError(response.data.error);
@@ -29,25 +32,25 @@ const Register = () => {
             const response = await postRequest('/auth/register', { uname: username, email: email, pw: password });
             if (response.status === 200) {
                 navigate('/login'); // Redirect to Login component
-            }else if(response.status === 400){
+            } else if (response.status === 400) {
                 setError(response.data.message);
             }
         } catch (err) {
-            err.response.data.error.msg? setError(err.response.data.error.msg) : setError('Error registering user');
+            err.response.data.error.msg ? setError(err.response.data.error.msg) : setError('Error registering user');
         }
     };
 
     return (
-        <section className="container-sm vh-100">
+        <section className="container-fluid vh-100">
 
             <div className="row d-flex justify-content-center align-items-center h-100">
-                <div className="col-sm-8"> {/* Adjust the column size here */}
-                    <div className="card shadow-3-strong" style={{ borderRadius: "1rem" }}>
+                <div className="col-sm-8 d-flex justify-content-center align-items-center">
+                    <div className="card w-50" style={{ borderRadius: "1rem" }}>
                         <div className="card-body ">
 
                             <h3 className="mb-4 text-center">Register</h3>
 
-                            {error && <p className="text-danger">{error}</p>} {/* Display error message */}
+                            {error && <p className="text-danger text-center">{error}</p>} {/* Display error message */}
 
                             <div className="form-outline mb-2">
                                 <label className="form-label" htmlFor="username">Name</label>

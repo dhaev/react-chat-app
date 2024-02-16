@@ -1,4 +1,4 @@
-// Home.js
+// ChatWrapper.js
 import React from 'react';
 import ChatHeader from './ChatHeader';
 import ChatBody from './ChatBody';

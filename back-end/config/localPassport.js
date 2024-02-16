@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const validPassword = require('./passwordUtils').validPassword;
-const { User} = require("../models/user");
+const { User} = require("../models/databaseSchema");
 
 module.exports = function (passport) {
     passport.use(new LocalStrategy({

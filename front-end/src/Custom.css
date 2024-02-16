@@ -1,64 +1,111 @@
+/* div{
+  background-color: #eff8f9;
+} */
 
 section {
   font-family: 'Times New Roman', serif;
 }
 
-section.container{
+.over-lay{
+  background-color: rgb(237, 249, 251);
+  /* max-width: 300px; */
+  border-style: solid;
+  border-color: #d2f4f7;
+  border-radius: 10px;
+  border: top 0px;
+  border-width: 1px;
+  box-shadow: #a2e6ee;
+}
+
+.diplayName-middle {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.message {
+  border-radius: 10px;
+}
+
+.container {
+  min-width: 500px !important;
+  /* Replace with your desired minismum width */
+}
+
+.unread {
+
+  color: rgb(243, 89, 89);
+  /* This will set the text color to red */
+  text-align: center;
+}
+
+.btn {
+  background-color: #6ec3cd !important;
+  border-color:  #a2e6ee !important;
+}
+
+.displayName {
+  font-weight: bold;
+}
+
+.list:hover {
+  background-color: rgb(228, 237, 242);
+}
+
+
+.selected {
+  background-color: rgb(180, 225, 249);
+}
+
+section.container {
   max-width: 300px;
   width: 300px;
 }
 
 .fill-space {
-    flex-grow: 1;
-    overflow: auto;
-  }
-  
-  .no-arrow .arrow::after {
-    display: none;
-  }
+  flex-grow: 1;
+  overflow: auto;
+}
 
-.sign-in-logo{
+.no-arrow .arrow::after {
+  display: none;
+}
+
+.sign-in-logo {
   max-width: 30px;
   height: auto;
   border-radius: 50%;
 }
 
-  .avatar {
-          max-width: 40px;
-          height: auto;
-          border-radius: 50%;
-      }
-      
-     .profile {
-      background-color: #8091e0;
-      }
-     /* .profile img {
-          max-width: 50px;
-          height: auto;
-          border-radius: 50%;
-      } */
-      /* .chat-messages {
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        /* height: 100%; Adjust as needed */
-        /* overflow: auto; Add this line */
-      /* } */
-      
-      .message {
-        width: fit-content;
-        padding: 10px;
-        margin: 5px;
-      }
-      
-      .receive {
-        background-color: #dedada;
-        /* align-self: flex-start; */
-      }
-      
-      .sent {
-        background-color: #dedada;
-        /* align-self: flex-end; */
-      }
-      
+
+.edit-avatar {
+  max-width: 300px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.avatar {
+  max-width: 40px;
+  height: auto;
+  border-radius: 50%;
+
+}
+
+.profile {
+  background-color: #a2e6ee;
+}
+
+.message {
+  width: fit-content;
+  padding: 10px;
+  margin: 5px;
+}
+
+.received {
+  background-color: #dedada;
+  /* align-self: flex-start; */
+}
+
+.sent {
+  background-color: #a2e6ee;
+  /* align-self: flex-end; */
+}
