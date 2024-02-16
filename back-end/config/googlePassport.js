@@ -1,6 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const validPassword = require('./passwordUtils').validPassword;
-const { User} = require("../models/user");
+const { User} = require("../models/databaseSchema");
 
 module.exports = function (passport) {
     passport.use(new GoogleStrategy({
@@ -17,7 +17,7 @@ module.exports = function (passport) {
         }
 
         try{
-            let user = await User.findOne({ googleId: profile.id});
+            let user = await User.findOne({ email: profile.emails[0].value});
 
             if(user){
                 done(null,user);

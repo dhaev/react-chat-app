@@ -16,11 +16,11 @@ function checkEmail() {
 }
 
 // Function to check password
-function checkPassword() {
+function checkPassword(fieldName) {
   return [
-    check('pw', 'Please enter a password with 6 or more characters').trim().isLength({ min: 6 }).escape(),
-    check('pw', 'Password should not exceed 20 characters').isLength({ max: 20 }),
-    check('pw', 'Password should contain at least one number, one uppercase letter, one lowercase letter, and one special character').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/)
+    check(fieldName, 'Please enter a password with 6 or more characters').trim().isLength({ min: 6 }).escape(),
+    check(fieldName, 'Password should not exceed 20 characters').isLength({ max: 20 }),
+    check(fieldName, 'Password should contain at least one number, one uppercase letter, one lowercase letter, and one special character').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/)
   ];
 }
 
@@ -35,14 +35,14 @@ function checkId(fieldName) {
   }
   
   // Function to check content
-  function checkContent() {
-    return check('content')
+  function checkContent(fieldName) {
+    return check(fieldName)
       .trim()
-      .notEmpty().withMessage('Content is required')
-      .isString().withMessage('Content must be a string')
+      .notEmpty().withMessage(`${fieldName} is required`)
+      .isString().withMessage(`${fieldName} must be a string`)
       .custom(value => {
         if(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi.test(value)) {
-          throw new Error('Content must not include script tags');
+          throw new Error(`${fieldName} must not include script tags`);
         }
         return true;
       });
