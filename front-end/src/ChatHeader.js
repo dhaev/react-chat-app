@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { deleteRequest } from './Axios.js';
 import { useGlobalState } from './GlobalStateProvider';
 
@@ -18,7 +17,7 @@ function ChatHeader() {
         setChatMessage(new Map());
       }
     } catch (error) {
-      console.error('Error deleting conversation:', error);
+      setError('Error deleting conversation:', error);
       setError(error);
     }
   };

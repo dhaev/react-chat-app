@@ -12,7 +12,7 @@ import { useMarkAsRead,ChatListItem } from './UserList'
 
 const ChatList = () => {
   const { user, setChatHeader, userConversation, setUserConversation,selectedChat, setSelectedChat } = useGlobalState();
-
+  const [error,setError]  = useState('');
   const markAsRead = useMarkAsRead(); 
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const ChatList = () => {
         const responseMap = new Map(response.data.user.map(i => [i._id, i]));
         setUserConversation(new Map([...userConversation, ...responseMap]));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        setError('Failed to load conversations');
       }
     };
     fetchData();

@@ -50,13 +50,12 @@ router.post('/register',  [...checkUsername(), checkEmail(), ...checkPassword('p
 
         // Save the new user
         const savedUser = await newUser.save();
-        console.log(savedUser);
 
         // Respond with success message
         res.status(200).json({ message: "Sign up successful" });
  
     } catch (error) {
-        console.error(error);
+        res.status(500).json({ message: "internal server error" });
         // Handle error, maybe redirect to an error page
     }
 });
@@ -69,11 +68,10 @@ router.get("/forgot-pass",  (req, res)=>{
 // password reset post route
 router.post("/password-reset", async (req,res)=>{
 
-  console.log("req received fond")
     const {email} = req.body;
     try{
 let user = await User.findOne({email:email});
-console.log(user +" fond")
+
 if(user){
     const resetToken =  await generateToken(user._id);
     const link= `${req.protocol}://${req.get('host')}/auth/password-reset-link?token=${resetToken}&id=${user._id}`;
@@ -84,7 +82,7 @@ const html = `<b> Hi ${user.displayName}, </b>
 <p> Please, click the link below to reset your password. </p>
 <a href = "${link}"> Reset Password </a>
 `
-console.log(link);
+
 const payload = {
     email,
     subject:"Password reset request",
@@ -99,7 +97,7 @@ sendEmail(payload);
 res.redirect("/auth/forgot-pass")
 }
     }catch(er){
-        console.log(er);
+       throw er
         // req.flash("error","Something went wrong, please try again later!")
         res.redirect("/auth/forgot-pass")
     }
@@ -120,7 +118,7 @@ res.render("newPasswordForm",{
 res.json({message:"Invalid token or link is expired"})
     }
 }catch(er){
-    console.log(er)
+
 res.json({message:"something went wrong, please try again latter"})
 }
 }else{
@@ -137,7 +135,7 @@ const {token, id}= req.query;
 let isValid;
 try{    isValid = await isValidToken({token,id});
 }catch(er){
-    console.log(er)
+
 }
 if(isValid){
 const {password, repeatPassword}=req.body;
@@ -163,13 +161,13 @@ try{
   const newHash = saltHash.hash;
   
     const updatedUser = await User.findByIdAndUpdate(id, { salt: newSalt, hash: newHash }, { new: true });
-    console.log("Updated User : ", updatedUser);
+
     if(updatedUser){
         // req.flash("success", "password is changed successfully.")
 res.redirect("/login");
     }
 }catch(er){
-    console.log(er)
+
 }
 }
 } else{

@@ -8,9 +8,7 @@ const { v4: uuid } = require('uuid')
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
       // Determine the subfolder based on file type
-      // Determine the subfolder based on file type
-      console.log(file)
-    //   console.log(req)
+
       let subfolder = '';
       if (file.mimetype.startsWith('image/')) {
         subfolder = 'images';
