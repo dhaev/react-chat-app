@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from './GlobalStateProvider';
-import { getRequest, apiClient  } from './Axios.js';
+import { getRequest } from './Axios.js';
 
 function UserProfile() {
   const { user, setUser, setShowSettings } = useGlobalState();
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [error,setError]  = useState('');
 
   const handleLogout = async (e) =>  {
     e.stopPropagation();
@@ -19,15 +20,13 @@ function UserProfile() {
         try {
           const response = await getRequest('/home/logout', null);
           if (response.status === 200) {
-            console.log(response);
             localStorage.setItem('loggedIn', false);
             localStorage.removeItem('loggedIn');
             setUser(null)
-            console.log("Logout successful");
             navigate('/login');
           }
         } catch (error) {
-          console.error('Error logging out:', error);
+          setError('Error logging out');
         } finally {
           setLoggingOut(false);
         }

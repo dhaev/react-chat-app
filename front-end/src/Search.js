@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
+import { OverlayTrigger } from 'react-bootstrap';
 import { getRequest } from './Axios.js';
 import { useGlobalState } from './GlobalStateProvider';
 import { useMarkAsRead,ChatListItem } from './UserList'
@@ -7,6 +7,7 @@ import { debounce } from 'lodash'; // import debounce from lodash
 
 const Search = () => {
   const { setChatHeader, selectedChat, setSelectedChat} = useGlobalState();
+  const [error,setError]  = useState('');
   const markAsRead = useMarkAsRead();
   const [inputValue, setInputValue] = useState('');
   const [data, setData] = useState(null);
@@ -17,7 +18,7 @@ const Search = () => {
         const response = await getRequest('/home/searchUsers', { searchQuery: inputValue });
         setData(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        setError('Failed to get data');
       }
     } else {
       setData(null);

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { putRequest } from './Axios.js';
 import { useGlobalState } from './GlobalStateProvider';
 
@@ -30,7 +31,8 @@ export const ChatListItem = ({ contact, selectedChat, setSelectedChat, markAsRea
   };
 
   export function useMarkAsRead() {
-    const { user, setChatHeader } = useGlobalState();
+    const { setChatHeader } = useGlobalState();
+    const [error,setError]  = useState('');
   
     const markAsRead = async (contact) => {
       try {
@@ -39,7 +41,7 @@ export const ChatListItem = ({ contact, selectedChat, setSelectedChat, markAsRea
           setChatHeader(contact);
         }
       } catch (error) {
-        console.error('Error updating read messages:', error);
+        setError('Error updating read messages');
       }
     };
   

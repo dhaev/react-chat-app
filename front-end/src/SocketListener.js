@@ -1,5 +1,5 @@
 // filename: SocketListener.js
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useGlobalState } from './GlobalStateProvider';
 import socket from './Socket';
 import { getRequest, putRequest } from './Axios.js';
@@ -7,6 +7,7 @@ import { getRequest, putRequest } from './Axios.js';
 
 function SocketListener() {
   const { setChatMessage, chatHeader, userConversation, setUserConversation, user } = useGlobalState();
+  const [error,setError]  = useState('');
 
   useEffect(() => {
     function isMessageRelevant(chatId, userId, newMessage) {
@@ -18,10 +19,10 @@ function SocketListener() {
     async function addNewMessage(newMessage) {
 
       try {
-        const response = await putRequest('/home/updateReadMessages', { otherUserId: chatHeader?._id });
+        await putRequest('/home/updateReadMessages', { otherUserId: chatHeader?._id });
 
       } catch (error) {
-        console.error('Error fetching data:', error);
+        setError('An error occured');
       }
 
       setChatMessage((prevMessages) => {
@@ -35,23 +36,21 @@ function SocketListener() {
       const doesExist = userConversation.has(targetId);
 
       if (!doesExist) {
-        let receiver, sender;
+        let otherUserId;
         try {
 
           //setting the user as the reciver makes it easy to query for unread messages
           if (user._id === newMessage.receiver) {
-            receiver = user._id;
-            sender = newMessage.sender;
+            otherUserId = newMessage.sender;
           } else {
-            receiver = user._id;
-            sender = newMessage.receiver;
+            otherUserId = newMessage.receiver;
           }
-          const response = await getRequest('/home/getSpecificConversation', { userId: receiver, otherUserId: sender });
+          const response = await getRequest('/home/getSpecificConversation', {otherUserId });
           const responseMap = new Map(response.data.user.map(i => [i._id, i]));
           setUserConversation(new Map([...userConversation, ...responseMap]));
 
         } catch (error) {
-          console.error('Error fetching data:', error);
+          setError('Failed to get convsersation');
         }
       } else if (doesExist) {
         const updatedUserConversation = new Map(userConversation);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getRequest, deleteRequest } from './Axios.js';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
 import { useGlobalState } from './GlobalStateProvider';
@@ -7,7 +7,7 @@ import socket from './Socket.js';
 // The most general component that renders the chat body
 function ChatBody() {
   const { user, chatHeader, chatMessage, setChatMessage } = useGlobalState();
-
+const [error,setError]  = useState('');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,7 +17,7 @@ function ChatBody() {
           setChatMessage(new Map(responseMap));
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        setError('Error fetching data');
       }
     };
 
@@ -41,6 +41,7 @@ function ChatBody() {
 
 function Message({ id, content, sender }) {
   const { user, chatHeader } = useGlobalState();
+  const [error,setError]  = useState('');
   const item = [
     { text: "Delete", action: handleDeleteMessage },
   ];
@@ -53,7 +54,7 @@ function Message({ id, content, sender }) {
         socket.emit('deleteMessage',id, user._id, chatHeader?._id);
       }
     } catch (error) {
-      console.error('Error deleting message:', error);
+      setError('Failed to delete message');
     }
   };
 

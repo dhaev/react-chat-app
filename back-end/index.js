@@ -101,17 +101,14 @@ io.use(passportSocketIo.authorize({
 
 io.on('connection', socket => {
   socket.join(socket.request.user.id)
-  console.log(`User ${socket.request.user.id} connected with socket ${socket.id}`);
-
   socket.on('sendMessage', (msg) => {
-    console.log(`User ${msg.sender} is sending message to ${msg.receiver}`);
+
     io.to(msg.sender).emit('receiveMessage', msg);
     if (io.sockets.adapter.rooms.get(msg.receiver)) {
       try {
         socket.to(msg.receiver).emit('receiveMessage', msg);
-        console.log(`User ${msg.sender} sent ${msg.content} to ${msg.receiver}`);
       } catch (error) {
-        console.error("unable to send message " + error)
+        // console.error("unable to send message " + error)
       }
     }
   })
@@ -127,11 +124,11 @@ app.use(errorHandler)
 
 mongoose.connection.once('open', () => {
     console.log('Connected to mongodbConn')
-    server.listen(PORT, "192.168.2.19", () => console.log(`server running on port ${PORT}`));
+    server.listen(PORT, () => console.log(`server running on port ${PORT}`));
 });
 
 mongoose.connection.on('error', err => {
-  console.log(err)
+
   logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
 })
 
