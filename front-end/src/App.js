@@ -1,7 +1,7 @@
 // filename: App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { getRequest, apiClient } from './Axios';
+import { getRequest} from './Axios';
 import { useGlobalState } from './GlobalStateProvider';
 
 import './Custom.css';
@@ -16,10 +16,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const checkAuth = async () => {
-      console.log("trying to login")
+  
       const loggedIn = localStorage.getItem('loggedIn');
-      console.log("loggedIn :"+ loggedIn)
-
+      
       if (loggedIn !== 'true') {
         setIsLoading(false);
         return;
@@ -35,7 +34,7 @@ function App() {
           setUser(null);
         }  
       } catch (error) {
-        console.error('Error checking auth:', error);
+
       } finally {
         setIsLoading(false);
       }

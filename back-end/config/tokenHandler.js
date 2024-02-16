@@ -34,8 +34,8 @@ const generateToken = async(id)=>{
                 const isValidToken = await bcrypt.compare(token,savedToken.token);
                 return isValidToken;
             }else return false
-        } catch(er){
-            console.log("something went wrong..." )
+        } catch( er ){
+           throw er
         }
     }
     module.exports = {
