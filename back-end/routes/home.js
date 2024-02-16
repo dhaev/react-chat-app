@@ -86,8 +86,9 @@ const sendMessage = async (req, res, next) => {
     return res.status(400).json({ error: errors.array()[0] });
   }
 
-  const {senderId, receiverId, content } = req.body;
+  const { receiverId, content } = req.body;
       // Check if users exist
+      const senderId = req.user.id
       const sender = await User.findById(senderId);
       const receiver = await User.findById(receiverId);
       console.log(receiver)
@@ -126,7 +127,6 @@ const otherUserId = new mongoose.Types.ObjectId(req.query.otherUserId) ;
 try {
 
       // Check if users exist
-      const user = await User.findById(userId);
       const otherUser = await User.findById(otherUserId);
   
       if (!user || !otherUser ) {
@@ -203,10 +203,6 @@ const getAllConversations = async (req, res, next) => {
   const userId = new mongoose.Types.ObjectId(req.user.id);
  
   try {
-    const user = await User.findById(userId);
-    if (!user ) {
-      return res.status(404).json({ message: 'user not found' });
-    }
     const result = await Conversation.aggregate([
       // Match the conversations that include the user
       { $match: { participants: userId } },
@@ -281,7 +277,7 @@ const getSpecificConversation = async (req, res, next) => {
   const userId = new mongoose.Types.ObjectId(req.user.id);
   const otherUserId = new mongoose.Types.ObjectId(req.query.otherUserId);
   try {
-    const user = await User.findById(userId);
+
     const otherUser = await User.findById(otherUserId);
     if (!user || !otherUser) {
       return res.status(404).json({ message: 'user not found' });
@@ -336,7 +332,7 @@ const deleteMessageForOne = async (req, res, next) => {
   const userId = req.user.id;
 
   try {
-    const user = await User.findById(userId);
+
     const otherUser = await User.findById(otherUserId);
 
     if (!user || !otherUser ) {
@@ -375,7 +371,6 @@ const updateReadMessages = async (req, res, next) => {
   const userId = req.user.id;
 
   try {
-    const user = await User.findById(userId);
     const otherUser = await User.findById(otherUserId);
 
     if (!user || !otherUser ) {
@@ -446,7 +441,6 @@ const deleteConversationForOne = async (req, res, next) => {
   const userId = req.user.id;
 
   try {
-    const user = await User.findById(userId);
     const otherUser = await User.findById(otherUserId);
 
     if (!user || !otherUser ) {
@@ -628,7 +622,7 @@ const tempFilePath = req.file.path + '.tmp';
 router.delete('/deleteConversationForOne',  [ checkId('otherUserId')], deleteConversationForOne)
 
 // The main route handler
-router.post('/sendMessage', [checkId('senderId'), checkId('receiverId'),checkContent('content')], sendMessage );
+router.post('/sendMessage', [checkId('receiverId'),checkContent('content')], sendMessage );
 
 //=================================get messages==========================================================================
 router.get('/getMessages', [ checkId('otherUserId')], getMessage );

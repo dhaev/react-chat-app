@@ -20,7 +20,6 @@ function InputMessageBox() {
       // Making a POST request to send the message
       const response = await postRequest('/home/sendMessage', {
         content: message,
-        senderId: user._id,
         receiverId: chatHeader?._id,
       });
       if(response.status === 200) {
