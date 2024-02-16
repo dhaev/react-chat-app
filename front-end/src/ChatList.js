@@ -18,7 +18,7 @@ const ChatList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getRequest('/home/getAllConversations', { userId: user._id });
+        const response = await getRequest('/home/getAllConversations', null);
         const responseMap = new Map(response.data.user.map(i => [i._id, i]));
         setUserConversation(new Map([...userConversation, ...responseMap]));
       } catch (error) {

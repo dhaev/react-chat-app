@@ -11,7 +11,7 @@ function ChatBody() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getRequest('/home/getMessages', { userId: user._id, otherUserId: chatHeader?._id });
+        const response = await getRequest('/home/getMessages', { otherUserId: chatHeader?._id });
         if (response.status === 200) {
           const responseMap = new Map(response.data.messages.map(i => [i._id, i]));
           setChatMessage(new Map(responseMap));
@@ -48,7 +48,7 @@ function Message({ id, content, sender }) {
   // The function that handles the deletion of a message
   async function handleDeleteMessage() {
     try {
-      const response = await deleteRequest('/home/deleteMessageForOne', { userId: user._id, otherUserId: chatHeader?._id, messageId: id });
+      const response = await deleteRequest('/home/deleteMessageForOne', { otherUserId: chatHeader?._id, messageId: id });
       if (response.status === 200) {
         socket.emit('deleteMessage',id, user._id, chatHeader?._id);
       }

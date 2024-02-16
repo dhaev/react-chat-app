@@ -72,15 +72,9 @@ app.use('/images/', express.static(path.join(__dirname, 'images')));
 // app.use('/uploads/others/', express.static(path.join(__dirname, '/uploads/others')));
 
 
-
-// Routes
 app.use('/', require('./routes/index'));
-app.use('/auth', require('./routes/auth'));
-app.use('/home', require('./routes/home'));
-
-// app.use('/', require('./routes/index'));
-// app.use('/auth',ensureGuest,  require('./routes/auth'));
-// app.use('/home',ensureAuth,  require('./routes/home'));
+app.use('/auth',ensureGuest,  require('./routes/auth'));
+app.use('/home',ensureAuth,  require('./routes/home'));
 
 app.all('*', (req, res) => {
   res.status(404)

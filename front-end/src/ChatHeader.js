@@ -13,7 +13,7 @@ function ChatHeader() {
   async function handleDeleteConversation(event) {
     event.preventDefault();
     try {
-      const response = await deleteRequest(DELETE_CONVERSATION, { userId: user._id, otherUserId: chatHeader?._id });
+      const response = await deleteRequest(DELETE_CONVERSATION, { otherUserId: chatHeader?._id });
       if(response.status === 200){
         setChatMessage(new Map());
       }

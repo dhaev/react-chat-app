@@ -18,7 +18,7 @@ function SocketListener() {
     async function addNewMessage(newMessage) {
 
       try {
-        const response = await putRequest('/home/updateReadMessages', { userId: user._id, otherUserId: chatHeader?._id });
+        const response = await putRequest('/home/updateReadMessages', { otherUserId: chatHeader?._id });
 
       } catch (error) {
         console.error('Error fetching data:', error);

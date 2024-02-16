@@ -27,7 +27,7 @@ const UpdatePassword = () => {
         event.preventDefault();
         try {
             // const response =
-             await putRequest('/home/updateUserInfo', { userId: user._id, newPassword, oldPassword });
+             await putRequest('/home/updateUserInfo', { newPassword, oldPassword });
             // if (response.status === 200) {
             //     navigate('/login'); // Redirect to Login component
             // }else if(response.status === 400){

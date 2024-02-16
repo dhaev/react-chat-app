@@ -34,7 +34,7 @@ export const ChatListItem = ({ contact, selectedChat, setSelectedChat, markAsRea
   
     const markAsRead = async (contact) => {
       try {
-        const response = await putRequest('/home/updateReadMessages', { userId: user._id, otherUserId: contact._id });
+        const response = await putRequest('/home/updateReadMessages', { otherUserId: contact._id });
         if (response.status === 200) {
           setChatHeader(contact);
         }
