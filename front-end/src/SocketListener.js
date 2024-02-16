@@ -35,18 +35,16 @@ function SocketListener() {
       const doesExist = userConversation.has(targetId);
 
       if (!doesExist) {
-        let receiver, sender;
+        let otherUserId ;
         try {
 
           //setting the user as the reciver makes it easy to query for unread messages
           if (user._id === newMessage.receiver) {
-            receiver = user._id;
-            sender = newMessage.sender;
+            otherUserId = newMessage.sender;
           } else {
-            receiver = user._id;
-            sender = newMessage.receiver;
+            otherUserId  = newMessage.receiver;
           }
-          const response = await getRequest('/home/getSpecificConversation', { userId: receiver, otherUserId: sender });
+          const response = await getRequest('/home/getSpecificConversation', { otherUserId });
           const responseMap = new Map(response.data.user.map(i => [i._id, i]));
           setUserConversation(new Map([...userConversation, ...responseMap]));
 
