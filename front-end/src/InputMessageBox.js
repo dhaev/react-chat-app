@@ -7,7 +7,7 @@ import socket from './Socket.js';
 function InputMessageBox() {
 
   // Destructuring the needed values from the global state
-  const { user, chatHeader} = useGlobalState();
+  const { userConversation,selectedChat} = useGlobalState();
 
   // Local state for the message input
   const [message, setMessage] = useState("");
@@ -20,10 +20,11 @@ function InputMessageBox() {
       // Making a POST request to send the message
       const response = await postRequest('/home/sendMessage', {
         content: message,
-        receiverId: chatHeader?._id,
+        receiverId: selectedChat?._id,
       });
       if(response.status === 200) {
-        socket.emit('sendMessage',response.data.newMessage);
+
+        socket.emit('sendMessage',response.data.newMessage,  userConversation.has(selectedChat?._id) );
       }
     } catch (error) {
       // Error handling can be improved here

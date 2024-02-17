@@ -15,18 +15,16 @@ export const useGlobalState = () => {
 // Provider component
 const GlobalStateProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [chatHeader, setChatHeader] = useState(null);
   const [chatMessage, setChatMessage] = useState(new Map());
   const [userConversation, setUserConversation] = useState(new Map());
-  const [selectedSettings, setSelectedSettings] = useState(null);
-  const [showSettings, setShowSettings] = useState(false);
+ 
   const [selectedChat, setSelectedChat] = useState(null);
 
   return (
-    <GlobalStateContext.Provider value={{ user, setUser, chatHeader, setChatHeader,
+    <GlobalStateContext.Provider value={{ user, setUser,
      chatMessage, setChatMessage, userConversation, setUserConversation,
      selectedChat, setSelectedChat,
-      selectedSettings, setSelectedSettings,showSettings, setShowSettings}}>
+      }}>
       {children}
     </GlobalStateContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext,useState } from 'react';
 import UpdateProfile from './UpdateProfile';
 import UpdatePassword from './UpdatePassword';
 
@@ -21,10 +21,12 @@ const SettingProvider = ({ children }) => {
         { _id: '2', displayName: 'Update Password', description: 'Change your password', component: <UpdatePassword /> },
         // Add more components as needed
       ];
+
+      const [selectedSettings, setSelectedSettings] = useState(null);
     
 
   return (
-    <SettingContext.Provider value={{ settingsList}}>
+    <SettingContext.Provider value={{ settingsList,selectedSettings, setSelectedSettings}}>
       {children}
     </SettingContext.Provider>
   );
