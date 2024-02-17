@@ -6,6 +6,10 @@ section {
   font-family: 'Times New Roman', serif;
 }
 
+.card{
+ min-width: '400px' !important;
+}
+
 .over-lay{
   background-color: rgb(237, 249, 251);
   /* max-width: 300px; */
@@ -92,6 +96,7 @@ section.container {
 
 .profile {
   background-color: #a2e6ee;
+  max-height: 50px;
 }
 
 .message {

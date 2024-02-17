@@ -20,7 +20,7 @@ export const ChatListItem = ({ contact, selectedChat, setSelectedChat, markAsRea
     <div style={{ display: 'flex', justifyContent: 'space-between',alignItems: 'center', width: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img src={contact.image} alt="" className="avatar img-fluid mr-3 " />
-        <span className="diplayName-middle">{contact.displayName}</span>
+        <h6 className="diplayName-middle">{contact.displayName}</h6>
       </div>
       {contact.unreadCount > 0 && <small className='unread'> {contact.unreadCount}</small>}
     </div>
