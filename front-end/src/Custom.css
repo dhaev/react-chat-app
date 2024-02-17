@@ -6,10 +6,6 @@ section {
   font-family: 'Times New Roman', serif;
 }
 
-.card{
- min-width: '400px' !important;
-}
-
 .over-lay{
   background-color: rgb(237, 249, 251);
   /* max-width: 300px; */
