@@ -35,8 +35,8 @@ function ChatHeader() {
 
   return (
     <div className="d-flex p-2 justify-content-between align-items-center profile">
-      <div>
-        <img src={selectedChat.image} alt="User avatar" className="img-fluid avatar mr-3" />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img src={selectedChat.image} alt="User avatar" className="img-fluid avatar mr-3"  />
         <h6 className='diplayName-middle'>{selectedChat.displayName}</h6>
       </div>
       <div>
