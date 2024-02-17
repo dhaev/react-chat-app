@@ -1,6 +1,6 @@
 // filename: App.js
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { getRequest } from './Axios';
 import { useGlobalState } from './GlobalStateProvider';
 import SettingsWrapper from './SettingsWrapper'
@@ -10,6 +10,11 @@ import Register from './Register';
 import Login from './Login';
 import Home from './Home';
 
+
+function AuthWrapper({ children }) {
+  const { user} = useGlobalState();
+  return user ? children : <Navigate to="/login" replace />;
+}
 
 
 function App() {
@@ -51,11 +56,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/register" element={!user ? <Register /> : <Home />} />
-        <Route path="/login" element={!user ? <Login /> : <Home />} />
-        <Route path="/home" element={user ? <Home /> : <Login />} />
-        <Route path="/" element={user ? <Home /> : <Login />} />
-        <Route path="/settings" element={user ? <SettingsWrapper /> : <Login />} />
+      <Route path="/register" element={!user ? <Register /> : <Navigate to="/home" replace />} />
+    <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" replace />} />
+    <Route path="/home" element={<AuthWrapper><Home /></AuthWrapper>} />
+    <Route path="/" element={<AuthWrapper><Home /></AuthWrapper>} />
+    <Route path="/settings" element={<AuthWrapper><SettingsWrapper /></AuthWrapper>} />
       </Routes>
     </Router>
   );

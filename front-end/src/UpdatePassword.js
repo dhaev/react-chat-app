@@ -43,7 +43,7 @@ const UpdatePassword = () => {
 <section className="container-sm vh-100 d-flex p-2 justify-content-center align-items-center">
 
         <div className="col-9 d-flex p-2 justify-content-center align-items-center"> {/* Adjust the column size here */}
-            <div className="card w-50 border-0">
+            <div className="card w-50 border-0" style={{ minWidth: '360px'}}>
                 <div className="card-body flex-column d-flex">                   
 
                     {error && <p className="text-danger text-center">{error}</p>} {/* Display error message */}
@@ -53,7 +53,7 @@ const UpdatePassword = () => {
                                 <input type="password" id="oldpassword" name="oldPassword" required className="form-control form-control-md" onChange={(e) => setOldPassword(e.target.value)} />
                             </div>
                             <div className="form-outline mb-2">
-                                <label className="form-label" htmlFor="newpassword">Password</label>
+                                <label className="form-label" htmlFor="newpassword">New Password</label>
                                 <input type="password" id="newpassword" name="newpassword" required className="form-control form-control-md" onChange={(e) => setNewPassword(e.target.value)} />
                             </div>
                     <div className="col text-center m-">

@@ -96,7 +96,7 @@ const UpdateProfile = () => {
             
             <div className="col-9 d-flex p-2 justify-content-center align-items-center"> {/* Adjust the column size here */}
                 
-                <div className="card w-50 border-0" >
+                <div className="card w-50 border-0" style={{ minWidth: '360px'}}>
                     
                     <div className="card-body flex-column d-flex">
                         

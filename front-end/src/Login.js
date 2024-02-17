@@ -47,7 +47,7 @@ function Login() {
         
         <div className="col-sm-8 d-flex justify-content-center align-items-center">
           
-          <div className="card w-50" style={{ borderRadius: "1rem" }}>
+          <div className="card w-50" style={{ borderRadius: "1rem", minWidth: '360px' }}>
             
             <div className="card-body ">
               

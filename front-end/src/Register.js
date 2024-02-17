@@ -45,7 +45,7 @@ const Register = () => {
 
             <div className="row d-flex justify-content-center align-items-center h-100">
                 <div className="col-sm-8 d-flex justify-content-center align-items-center">
-                    <div className="card w-50" style={{ borderRadius: "1rem" }}>
+                    <div className="card w-50" style={{ borderRadius: "1rem", minWidth: '360px' }}>
                         <div className="card-body ">
 
                             <h3 className="mb-4 text-center">Register</h3>
