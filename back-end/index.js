@@ -103,11 +103,12 @@ io.on('connection', socket => {
   socket.join(socket.request.user.id)
   console.log(`User ${socket.request.user.id} connected with socket ${socket.id}`);
 
-  socket.on('sendMessage', (msg) => {
+  socket.on('sendMessage', (msg, newConvo) => {
     console.log(`User ${msg.sender} is sending message to ${msg.receiver}`);
     io.to(msg.sender).emit('receiveMessage', msg);
     if (io.sockets.adapter.rooms.get(msg.receiver)) {
       try {
+        
         socket.to(msg.receiver).emit('receiveMessage', msg);
         console.log(`User ${msg.sender} sent ${msg.content} to ${msg.receiver}`);
       } catch (error) {

@@ -11,7 +11,7 @@ import { useMarkAsRead,ChatListItem } from './UserList'
 
 
 const ChatList = () => {
-  const { user, setChatHeader, userConversation, setUserConversation,selectedChat, setSelectedChat } = useGlobalState();
+  const { user, userConversation, setUserConversation,selectedChat, setSelectedChat } = useGlobalState();
 
   const markAsRead = useMarkAsRead(); 
 
@@ -32,7 +32,7 @@ const ChatList = () => {
   const conversationArray = useMemo(() => Array.from(userConversation.values()), [userConversation]);
 
   return (
-    <div className="container-fluid chats overflow-auto" id="chats">
+    <div className="container-fluid chats" style={{ overflowY: 'auto', overflowX: 'hidden' }}  id="chats">
       {conversationArray.map((contact) => (
   <ChatListItem
     key={contact._id}
@@ -40,7 +40,6 @@ const ChatList = () => {
     selectedChat={selectedChat}
     setSelectedChat={setSelectedChat}
     markAsRead={markAsRead}
-    setChatHeader={setChatHeader}
   />
 ))}
     </div>

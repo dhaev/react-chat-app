@@ -6,7 +6,7 @@ import { getRequest, putRequest } from './Axios.js';
 
 
 function SocketListener() {
-  const { setChatMessage, chatHeader, userConversation, setUserConversation, user } = useGlobalState();
+  const { setChatMessage, selectedChat, userConversation, setUserConversation, user } = useGlobalState();
 
   useEffect(() => {
     function isMessageRelevant(chatId, userId, newMessage) {
@@ -18,7 +18,7 @@ function SocketListener() {
     async function addNewMessage(newMessage) {
 
       try {
-        const response = await putRequest('/home/updateReadMessages', { otherUserId: chatHeader?._id });
+        const response = await putRequest('/home/updateReadMessages', { otherUserId: selectedChat?._id });
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -63,7 +63,7 @@ function SocketListener() {
     if (socket) {
       const messageListener = async (newMessage) => {
 
-        if (isMessageRelevant(chatHeader?._id, user._id, newMessage)) {
+        if (isMessageRelevant(selectedChat?._id, user._id, newMessage)) {
           addNewMessage(newMessage);
         } else {
           handleIrrelevantMessage(newMessage);
@@ -71,7 +71,7 @@ function SocketListener() {
       };
 
       const deleteListener = async (messageId, otherUserId) => {
-        if (chatHeader?._id === otherUserId) {
+        if (selectedChat?._id === otherUserId) {
           setChatMessage((prevData) => {
             const newData = new Map(prevData);
             newData.delete(messageId);
@@ -86,6 +86,8 @@ function SocketListener() {
       // Clean up the listener when the component unmounts
       return () => {
         socket.off('receiveMessage', messageListener);
+         socket.off('deleteMessage', deleteListener);
+
       };
     }
   },);

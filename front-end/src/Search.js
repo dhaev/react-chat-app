@@ -6,7 +6,7 @@ import { useMarkAsRead,ChatListItem } from './UserList'
 import { debounce } from 'lodash'; // import debounce from lodash
 
 const Search = () => {
-  const { setChatHeader, selectedChat, setSelectedChat} = useGlobalState();
+  const { setSelectedChat, selectedChat} = useGlobalState();
   const markAsRead = useMarkAsRead();
   const [inputValue, setInputValue] = useState('');
   const [data, setData] = useState(null);
@@ -35,7 +35,6 @@ const Search = () => {
        selectedChat={selectedChat}
        setSelectedChat={setSelectedChat}
        markAsRead={markAsRead}
-       setChatHeader={setChatHeader}
      />
       )) : "No results found."}
     </div>

@@ -1,8 +1,7 @@
-import { useGlobalState } from './GlobalStateProvider';
 import { useSetting } from './SettingProvider';
 
 function SettingContentHeader({components}) {  
-  const {  selectedSettings, setSelectedSettings } = useGlobalState();
+  const {  selectedSettings, setSelectedSettings } = useSetting();
   async function handleCloseSettingContent(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -22,8 +21,7 @@ function SettingContentHeader({components}) {
 
 
 function SettingContent() {
-  const { selectedSettings } = useGlobalState();
-  const { settingsList} = useSetting();
+  const { settingsList, selectedSettings } = useSetting();
 
   return (
     <div className="col-9 d-flex flex-column justify-content-centeralign-items-center  vh-100 position-relative">

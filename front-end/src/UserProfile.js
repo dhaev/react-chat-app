@@ -4,7 +4,7 @@ import { useGlobalState } from './GlobalStateProvider';
 import { getRequest, apiClient  } from './Axios.js';
 
 function UserProfile() {
-  const { user, setUser, setShowSettings } = useGlobalState();
+  const { user, setUser} = useGlobalState();
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
 
@@ -44,7 +44,7 @@ function UserProfile() {
         <button className="btn" onMouseDown={handleLogout}>
         <i className="fa fa-sign-out"></i>
       </button>
-      <button className="btn" onMouseDown={(e)=> {e.stopPropagation(); setShowSettings(true)}}>
+      <button className="btn" onMouseDown={(e)=> {e.stopPropagation();navigate('/settings');}}>
       <i className="fa fa-solid fa-gear"></i>
       </button>
       </div>

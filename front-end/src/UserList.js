@@ -1,20 +1,20 @@
 import { putRequest } from './Axios.js';
 import { useGlobalState } from './GlobalStateProvider';
 
-export const ChatListItem = ({ contact, selectedChat, setSelectedChat, markAsRead, setChatHeader }) => {
+export const ChatListItem = ({ contact, selectedChat, setSelectedChat, markAsRead }) => {
     const handleClick = () => {
-      setSelectedChat(contact._id);
+
       if (contact?.unreadCount) {
         markAsRead(contact);
-      } else {
-        setChatHeader(contact);
       }
+      setSelectedChat(contact);
+ 
     };
   
     return (
   <div
     key={contact._id}
-    className={`p-2 justify-content-between align-items-center conversations mb-1 border-bottom list rounded conversations ${selectedChat === contact._id ? "selected" : ""}`}
+    className={`p-2 justify-content-between align-items-center conversations mb-1 border-bottom list rounded conversations ${selectedChat?._id === contact._id ? "selected" : ""}`}
     onMouseDown={handleClick}
   >
     <div style={{ display: 'flex', justifyContent: 'space-between',alignItems: 'center', width: '100%' }}>
@@ -30,13 +30,17 @@ export const ChatListItem = ({ contact, selectedChat, setSelectedChat, markAsRea
   };
 
   export function useMarkAsRead() {
-    const { user, setChatHeader } = useGlobalState();
+    const { setUserConversation,userConversation } = useGlobalState();
   
     const markAsRead = async (contact) => {
       try {
         const response = await putRequest('/home/updateReadMessages', { otherUserId: contact._id });
         if (response.status === 200) {
-          setChatHeader(contact);
+          const updatedUserConversation = new Map(userConversation);
+          const targetValue = updatedUserConversation.get(contact._id);
+          targetValue.unreadCount = 0;
+          updatedUserConversation.set(contact._id, targetValue);
+          setUserConversation(updatedUserConversation);
         }
       } catch (error) {
         console.error('Error updating read messages:', error);

@@ -1,8 +1,9 @@
 // filename: App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { getRequest, apiClient } from './Axios';
+import { getRequest } from './Axios';
 import { useGlobalState } from './GlobalStateProvider';
+import SettingsWrapper from './SettingsWrapper'
 
 import './Custom.css';
 import Register from './Register';
@@ -54,6 +55,7 @@ function App() {
         <Route path="/login" element={!user ? <Login /> : <Home />} />
         <Route path="/home" element={user ? <Home /> : <Login />} />
         <Route path="/" element={user ? <Home /> : <Login />} />
+        <Route path="/settings" element={user ? <SettingsWrapper /> : <Login />} />
       </Routes>
     </Router>
   );

@@ -129,7 +129,7 @@ try {
       // Check if users exist
       const otherUser = await User.findById(otherUserId);
   
-      if (!user || !otherUser ) {
+      if ( !otherUser ) {
         return res.status(404).json({ message: 'user not found' });
       }
   const conversations = await Conversation.aggregate([
@@ -279,7 +279,7 @@ const getSpecificConversation = async (req, res, next) => {
   try {
 
     const otherUser = await User.findById(otherUserId);
-    if (!user || !otherUser) {
+    if ( !otherUser) {
       return res.status(404).json({ message: 'user not found' });
     }
     const result = await Conversation.aggregate([
@@ -335,7 +335,7 @@ const deleteMessageForOne = async (req, res, next) => {
 
     const otherUser = await User.findById(otherUserId);
 
-    if (!user || !otherUser ) {
+    if ( !otherUser ) {
       return res.status(404).json({ message: 'user not found' });
     }
     const updatedConversation = await Conversation.updateOne({
@@ -373,7 +373,7 @@ const updateReadMessages = async (req, res, next) => {
   try {
     const otherUser = await User.findById(otherUserId);
 
-    if (!user || !otherUser ) {
+    if ( !otherUser ) {
       return res.status(404).json({ message: 'user not found' });
     }
     const updatedConversation = await Conversation.updateMany({
@@ -443,7 +443,7 @@ const deleteConversationForOne = async (req, res, next) => {
   try {
     const otherUser = await User.findById(otherUserId);
 
-    if (!user || !otherUser ) {
+    if (!otherUser ) {
       return res.status(404).json({ message: 'user not found' });
     }
     const updatedConversation = await Conversation.updateMany({

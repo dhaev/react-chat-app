@@ -1,12 +1,15 @@
 import { useGlobalState } from './GlobalStateProvider';
 import { useSetting } from './SettingProvider';
+import { useNavigate } from 'react-router-dom';
 
 function SettingHeader() {  
-  const { user, setShowSettings,setSelectedSettings } = useGlobalState();
+  const { user } = useGlobalState();
+  const { setSelectedSettings } = useSetting();
+  const navigate = useNavigate();
 
   
   const closeSetting = () => {
-    setShowSettings(false);
+    navigate('/home');
     setSelectedSettings(null);
   }
   
@@ -22,8 +25,8 @@ function SettingHeader() {
 }
 
 function SettingList() {
-  const { selectedSettings, setSelectedSettings } = useGlobalState();
-  const { settingsList} = useSetting();
+
+  const { settingsList,selectedSettings, setSelectedSettings } = useSetting();
 
   return (
     <div >

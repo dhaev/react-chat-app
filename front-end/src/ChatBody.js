@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { getRequest, deleteRequest } from './Axios.js';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
 import { useGlobalState } from './GlobalStateProvider';
@@ -6,12 +6,12 @@ import socket from './Socket.js';
 
 // The most general component that renders the chat body
 function ChatBody() {
-  const { user, chatHeader, chatMessage, setChatMessage } = useGlobalState();
-
+  const { user, selectedChat, chatMessage, setChatMessage } = useGlobalState();
+  const chatContainerRef = useRef(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getRequest('/home/getMessages', { otherUserId: chatHeader?._id });
+        const response = await getRequest('/home/getMessages', { otherUserId: selectedChat?._id });
         if (response.status === 200) {
           const responseMap = new Map(response.data.messages.map(i => [i._id, i]));
           setChatMessage(new Map(responseMap));
@@ -22,11 +22,18 @@ function ChatBody() {
     };
 
     fetchData();
-  }, [setChatMessage, chatHeader, user]);
+  }, [setChatMessage, selectedChat, user]);
+
+
+
+  useEffect(() => {
+    const { scrollHeight } = chatContainerRef.current;
+    chatContainerRef.current.scrollTop = scrollHeight;
+  }, [chatMessage]);
 
   return (
-    <div className="overflow-auto mt-auto">
-      <div className="container fill-space chat-messages d-flex flex-column align-items-start justify-content-end">
+    <div className="mt-auto" style={{ overflowY: 'auto', overflowX: 'hidden' }} ref={chatContainerRef}>
+      <div className="container fill-space chat-messages d-flex flex-column align-items-start justify-content-end" style={{ overflowX: 'hidden' }}>
         {chatMessage ? (
           Array.from(chatMessage.values()).map((message) => (
             <Message key={message._id} id={message._id} content={message.content} sender={message.sender} />
@@ -40,7 +47,7 @@ function ChatBody() {
 }
 
 function Message({ id, content, sender }) {
-  const { user, chatHeader } = useGlobalState();
+  const { user, selectedChat } = useGlobalState();
   const item = [
     { text: "Delete", action: handleDeleteMessage },
   ];
@@ -48,9 +55,9 @@ function Message({ id, content, sender }) {
   // The function that handles the deletion of a message
   async function handleDeleteMessage() {
     try {
-      const response = await deleteRequest('/home/deleteMessageForOne', { otherUserId: chatHeader?._id, messageId: id });
+      const response = await deleteRequest('/home/deleteMessageForOne', { otherUserId: selectedChat?._id, messageId: id });
       if (response.status === 200) {
-        socket.emit('deleteMessage',id, user._id, chatHeader?._id);
+        socket.emit('deleteMessage',id, user._id, selectedChat?._id);
       }
     } catch (error) {
       console.error('Error deleting message:', error);
