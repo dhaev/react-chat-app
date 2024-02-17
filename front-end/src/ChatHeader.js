@@ -37,7 +37,7 @@ function ChatHeader() {
     <div className="d-flex p-2 justify-content-between align-items-center profile">
       <div>
         <img src={selectedChat.image} alt="User avatar" className="img-fluid avatar mr-3" />
-        <span className='diplayName-middle'>{selectedChat.displayName}</span>
+        <h6 className='diplayName-middle'>{selectedChat.displayName}</h6>
       </div>
       <div>
         <button type="button" className="btn" onMouseDown={handleDeleteConversation} aria-label="Delete conversation for user only">
