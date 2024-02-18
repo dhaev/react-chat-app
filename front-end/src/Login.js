@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { postRequest } from './Axios.js';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from './GlobalStateProvider';
@@ -10,16 +10,8 @@ function Login() {
   const [error, setError] = useState('');
   const [emailError, setEmailError] = useState(''); // Add state for email error
   const [passwordError, setPasswordError] = useState(''); // Add state for password error
-  const [formSubmitted, setFormSubmitted] = useState(false); // Add state for form submission
   const navigate = useNavigate();
   const { setUser } = useGlobalState();
-
-  // useEffect(() => {
-  //   if (formSubmitted) { // Only validate if form has been submitted
-  //   setEmailError(validateEmail(email));
-  //   setPasswordError(validatePassword(password));
-  // }
-  // }, [email, password,formSubmitted]);
 
   // const loginGoogleUser = async (event) => {
   //   event.preventDefault(); 
@@ -40,7 +32,7 @@ function Login() {
     // setFormSubmitted(true);
 
     const emailErr = validateEmail(email);
-    const passwordErr = validatePassword(password);
+    const passwordErr = validatePassword(password,'Password');
     console.log((emailErr || passwordErr))
     if (emailErr || passwordErr) {
       setEmailError(emailErr);
@@ -59,7 +51,7 @@ function Login() {
           setError(response.data.error);
         }
       } catch (err) {
-        setError('logging attempt failed');
+        setError('Log-in attempt failed');
       }
     }
   };

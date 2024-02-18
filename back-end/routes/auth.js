@@ -17,6 +17,7 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 });
 
 router.post('/login', [checkEmail(), ...checkPassword('pw')], passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+    console.log("logged in", req.user)
     res.status(200).json({message: "login successful", user: req.user});
 });
 

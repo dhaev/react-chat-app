@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { putRequest } from './Axios.js';
 import { useGlobalState } from './GlobalStateProvider.js';
 import { validateUsername, validateEmail } from './validations'; // Import the validation functions
@@ -8,6 +8,7 @@ const UpdateProfile = () => {
     const [username, setUsername] = useState(user.displayName);
     const [email, setEmail] = useState(user.email);
     const [error, setError] = useState('');
+    const [imgError, setImgError] = useState('');
     const [selectedFile, setSelectedFile] = useState('');
     const [usernameError, setUsernameError] = useState(''); // Add state for username error
     const [emailError, setEmailError] = useState(''); // Add state for email error
@@ -55,15 +56,16 @@ const UpdateProfile = () => {
                 if (response.status === 200) {
                     setUser({ ...user, image: response.data.image });
                     setSelectedFile('')
+                    setImgError('')
                 } else if (response.status === 400) {
-                    setError(response.data.message);
+                    setImgError(response.data.message);
                 }
                 // Handle the response as needed
             } catch (err) {
-                setError('Failed to update user image');
+                setImgError('Failed to update user image');
             }
         } else {
-            setError('No file selected');
+            setImgError('No file selected');
         }
     };
 
@@ -76,7 +78,8 @@ const UpdateProfile = () => {
                             <div className="d-flex justify-content-center align-items-center mb-3">
                                 <img src={'http://192.168.2.19:5000/' + user.image} alt="" className="img-fluid edit-avatar" />
                             </div>
-                            <div className="input-group d-flex justify-content-center mb-5 mt-1">
+                            {imgError && <p className="text-danger text-center">{imgError}</p>}
+                            <div className="input-group d-flex justify-content-center mb-5 ">
                                 <input className="form-control-file form-control" type='file' name='image' onChange={(e) => setSelectedFile(e.target.files[0])} />
                                 <button className="btn btn-primary btn-md ml-2" type="submit" onMouseDown={updateUserImage}>Save</button>
                             </div>

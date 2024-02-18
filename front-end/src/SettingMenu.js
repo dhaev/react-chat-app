@@ -14,7 +14,7 @@ function SettingHeader() {
   }
   
   return (
-    <div className="d-flex p-2 justify-content-between align-items-center profile">
+    <div className="d-flex p-2 justify-content-between align-items-center profile" style={{ overflowY: 'hidden', overflowX: 'hidden' }}>
       <img src={'http://192.168.2.19:5000/'+user.image} alt="" className="img-fluid avatar" />
       <h6> Settings </h6>
       <button className="btn" onMouseDown={closeSetting}>

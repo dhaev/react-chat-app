@@ -3,8 +3,8 @@
 const validateUsername = (username) => {
     if (!username) {
       return 'Name is required';
-    // } else if (username.length < 5) {
-    //   return 'Name should be at least 5 characters';
+    } else if (username.length < 4) {
+      return 'Name should be at least 4 characters';
     } else if (username.length > 20) {
       return 'Name should not exceed 20 characters';
     } else {
@@ -23,16 +23,16 @@ const validateUsername = (username) => {
     }
   };
   
-  const validatePassword = (password) => {
+  const validatePassword = (password, fieldName) => {
     const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?{}|<>]).*$/;
     if (!password) {
-      return 'Password is required';
+      return `${fieldName} is required`;
     } else if (password.length < 8) {
-      return 'Please enter a password with 8 or more characters';
+      return `Please enter a ${fieldName} with 8 or more characters`;
     } else if (password.length > 20) {
-      return 'Password should not exceed 20 characters';
+      return `${fieldName} should not exceed 20 characters`;
     } else if (!re.test(password)) {
-      return 'Password shoul contain a number, an upper & lower case letter, and a special character';
+      return `${fieldName} should contain a number, an upper & lower case letter, and a special character`;
     } else {
       return '';
     }

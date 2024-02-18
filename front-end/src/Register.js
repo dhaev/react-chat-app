@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postRequest } from './Axios.js';
 import { validateUsername, validateEmail, validatePassword } from './validations'; // Import the validation functions
@@ -34,7 +34,7 @@ const Register = () => {
 
 
         const emailErr = validateEmail(email);
-        const passwordErr = validatePassword(password);
+        const passwordErr = validatePassword(password,'Password');
         const usernameErr = validateUsername(username);
         console.log((emailErr || passwordErr))
         if (emailErr || passwordErr || usernameErr) {
