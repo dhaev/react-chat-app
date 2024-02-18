@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { getRequest} from './Axios.js';
 import { useGlobalState } from './GlobalStateProvider';
 import { useMarkAsRead,ChatListItem } from './UserList'
@@ -32,7 +32,7 @@ const ChatList = () => {
   const conversationArray = useMemo(() => Array.from(userConversation.values()), [userConversation]);
 
   return (
-    <div className="container-fluid chats" style={{ overflowY: 'auto', overflowX: 'hidden' }}  id="chats">
+    <div className="container-fluid  chat-list chats" style={{ overflowY: 'auto', overflowX: 'hidden' }}  id="chats">
       {conversationArray.map((contact) => (
   <ChatListItem
     key={contact._id}

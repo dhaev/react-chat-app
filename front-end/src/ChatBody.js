@@ -86,7 +86,7 @@ function CustomPopover({ id, content, item, actionTrigger, sender, user }) {
   return (
     <OverlayTrigger trigger={actionTrigger} placement="auto" overlay={popover} rootClose>
       <div id={id}
-        className={`d-flex flex-column  ${sender === user ? 'align-self-end message sent' : 'align-self-start message received'}`}
+        className={`d-flex flex-column ${sender === user ? 'align-self-end message sent' : 'align-self-start message received'}`}
       >
         {content}
       </div>

@@ -7,8 +7,8 @@ section {
 }
 
 .over-lay{
-  background-color: rgb(237, 249, 251);
-  /* max-width: 300px; */
+  background-color: rgb(238, 238, 238);
+  max-width: 20%;
   border-style: solid;
   border-color: #d2f4f7;
   border-radius: 10px;
@@ -22,14 +22,11 @@ section {
   margin-left: 10px;
 }
 
-.message {
-  border-radius: 10px;
-}
 
-.container {
+/* .container {
   min-width: 500px !important;
-  /* Replace with your desired minismum width */
-}
+
+} */
 
 .unread {
 
@@ -52,7 +49,7 @@ section {
 }
 
 
-.selected {
+.chat-list .selected {
   background-color: rgb(180, 225, 249);
 }
 
@@ -97,16 +94,30 @@ section.container {
 
 .message {
   width: fit-content;
-  padding: 10px;
-  margin: 5px;
+  padding: 8px;
+  margin: 1px;
+  border-radius: 7px;
 }
 
 .received {
   background-color: #dedada;
+  /* border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px; */
   /* align-self: flex-start; */
 }
 
 .sent {
   background-color: #a2e6ee;
+  /* border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px; */
   /* align-self: flex-end; */
+}
+.error {
+  color: red;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.error-border {
+  border: 1px solid red;
 }

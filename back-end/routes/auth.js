@@ -16,7 +16,7 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
     res.status(200).json({message: "login successful", user: req.user});
 });
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+router.post('/login', [checkEmail(), ...checkPassword('pw')], passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
     res.status(200).json({message: "login successful", user: req.user});
 });
 
