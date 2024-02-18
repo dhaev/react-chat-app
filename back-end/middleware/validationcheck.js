@@ -18,7 +18,7 @@ function checkEmail() {
 // Function to check password
 function checkPassword(fieldName) {
   return [
-    check(fieldName, 'Please enter a password with 6 or more characters').trim().isLength({ min: 6 }).escape(),
+    check(fieldName, 'Please enter a password with 6 or more characters').trim().isLength({ min: 8 }).escape(),
     check(fieldName, 'Password should not exceed 20 characters').isLength({ max: 20 }),
     check(fieldName, 'Password should contain at least one number, one uppercase letter, one lowercase letter, and one special character').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/)
   ];

@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getRequest, postRequest } from './Axios.js';
-import { useGlobalState } from './GlobalStateProvider';
+import { postRequest } from './Axios.js';
+import { validateUsername, validateEmail, validatePassword } from './validations'; // Import the validation functions
 
 const Register = () => {
-    const { setUser } = useGlobalState();
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [usernameError, setUsernameError] = useState(''); // Add state for username error
+    const [emailError, setEmailError] = useState(''); // Add state for email error
+    const [passwordError, setPasswordError] = useState(''); // Add state for password error
     const navigate = useNavigate();
 
     // const registerGoogleUser = async (event) => {
@@ -28,6 +31,19 @@ const Register = () => {
 
     const registerLocalUser = async (event) => {
         event.preventDefault();
+
+
+        const emailErr = validateEmail(email);
+        const passwordErr = validatePassword(password);
+        const usernameErr = validateUsername(username);
+        console.log((emailErr || passwordErr))
+        if (emailErr || passwordErr || usernameErr) {
+            setEmailError(emailErr);
+            setPasswordError(passwordErr);
+            setUsernameError(usernameErr);
+            // setError('Please correct the errors before submitting.');
+            return;
+        }
         try {
             const response = await postRequest('/auth/register', { uname: username, email: email, pw: password });
             if (response.status === 200) {
@@ -36,36 +52,37 @@ const Register = () => {
                 setError(response.data.message);
             }
         } catch (err) {
-            err.response.data.error.msg ? setError(err.response.data.error.msg) : setError('Error registering user');
+            setError('Registration failed');
         }
     };
 
     return (
         <section className="container-fluid vh-100">
-
             <div className="row d-flex justify-content-center align-items-center h-100">
                 <div className="col-sm-8 d-flex justify-content-center align-items-center">
                     <div className="card w-50" style={{ borderRadius: "1rem", minWidth: '360px' }}>
                         <div className="card-body ">
-
                             <h3 className="mb-4 text-center">Register</h3>
-
-                            {error && <p className="text-danger text-center">{error}</p>} {/* Display error message */}
-
+                            {error && <p className="text-danger text-center">{error}</p>}
                             <div className="form-outline mb-2">
-                                <label className="form-label" htmlFor="username">Name</label>
-                                <input type="text" id="username" name="uname" required className="form-control form-control-md" onChange={(e) => setUsername(e.target.value)} />
+                                <label className={`form-label ${usernameError ? 'error' : ''}`} htmlFor="username">
+                                    {usernameError || 'Name'}
+                                </label>
+                                <input type="text" id="username" name="uname" className={`form-control form-control-md ${usernameError ? 'error-border' : ''}`} onChange={(e) => setUsername(e.target.value)} />
+                            </div>
+                            <div className="form-outline mb-2">
+                                <label className={`form-label ${emailError ? 'error' : ''}`} htmlFor="email">
+                                    {emailError || 'Email'}
+                                </label>
+                                <input type="email" id="email" name="email" className={`form-control form-control-md ${emailError ? 'error-border' : ''}`} onChange={(e) => setEmail(e.target.value)} />
+                            </div>
+                            <div className="form-outline mb-2">
+                                <label className={`form-label ${passwordError ? 'error' : ''}`} htmlFor="password">
+                                    {passwordError || 'Password'}
+                                </label>
+                                <input type="password" id="password" name="pw" className={`form-control form-control-md ${passwordError ? 'error-border' : ''}`} onChange={(e) => setPassword(e.target.value)} />
                             </div>
 
-                            <div className="form-outline mb-2">
-                                <label className="form-label" htmlFor="email">Email</label>
-                                <input type="email" id="email" name="email" required className="form-control form-control-md" onChange={(e) => setEmail(e.target.value)} />
-                            </div>
-
-                            <div className="form-outline mb-2">
-                                <label className="form-label" htmlFor="password">Password</label>
-                                <input type="password" id="password" name="pw" required className="form-control form-control-md" onChange={(e) => setPassword(e.target.value)} />
-                            </div>
                             <div className="col text-center m-">
                                 <input className="btn btn-primary btn-md form-control form-control-md " type="submit" onClick={registerLocalUser} value="Register" />
                             </div>

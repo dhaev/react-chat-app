@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from './GlobalStateProvider';
-import { getRequest, apiClient  } from './Axios.js';
+import { getRequest  } from './Axios.js';
 
 function UserProfile() {
   const { user, setUser} = useGlobalState();
