@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 function checkUsername() {
   return [
     check('uname', 'Display Name is required').trim().not().isEmpty().escape(),
-    check('uname', 'Display Name should be at least 5 characters').isLength({ min: 5 }),
+    check('uname', 'Display Name should be at least 5 characters').isLength({ min: 4 }),
     check('uname', 'Display Name should not exceed 20 characters').isLength({ max: 20 })
   ];
 }

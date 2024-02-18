@@ -17,7 +17,7 @@ module.exports = function (passport) {
                 const isValid = validPassword(password, user.hash, user.salt);
                 
                 if (isValid) {
-                    return done(null, user);
+                    return done(null, {_id: user._id, displayName: user.displayName, email:user.email, image: user.image});
                 } else {
                     return done(null, false);
                 }
@@ -28,12 +28,12 @@ module.exports = function (passport) {
         ))
     
         passport.serializeUser((user, done) => {
-            done(null, user.id);
+            done(null, user._id);
           });
           
           passport.deserializeUser(async (id, done) => {
             try {
-                let user = User.findById(id)
+                let user = await User.findById(id)
                 done(null, user);
             } catch (err) {
                 done(err);

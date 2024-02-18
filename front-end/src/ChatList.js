@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { getRequest} from './Axios.js';
 import { useGlobalState } from './GlobalStateProvider';
 import { useMarkAsRead,ChatListItem } from './UserList'
@@ -11,22 +11,22 @@ import { useMarkAsRead,ChatListItem } from './UserList'
 
 
 const ChatList = () => {
-  const { user, userConversation, setUserConversation,selectedChat, setSelectedChat } = useGlobalState();
+  const {userConversation, setUserConversation,selectedChat, setSelectedChat } = useGlobalState();
 
-  const markAsRead = useMarkAsRead(); 
+  const markAsRead = useMarkAsRead();
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await getRequest('/home/getAllConversations', null);
+      const responseMap = new Map(response.data.user.map(i => [i._id, i]));
+      setUserConversation(prevConversation => {return new Map([...prevConversation , ...responseMap])});
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  },[]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getRequest('/home/getAllConversations', null);
-        const responseMap = new Map(response.data.user.map(i => [i._id, i]));
-        setUserConversation(new Map([...userConversation, ...responseMap]));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  useEffect(() => {  
     fetchData();
-  }, [user, setUserConversation]);
+  }, [fetchData]);
 
 
   const conversationArray = useMemo(() => Array.from(userConversation.values()), [userConversation]);
