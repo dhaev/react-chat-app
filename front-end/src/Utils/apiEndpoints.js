@@ -1,0 +1,15 @@
+export const DELETE_CONVERSATION = '/home/deleteConversationForOne';
+export const DELETE_MESSAGE = '/home/deleteMessageForOne';
+export const GET_CONVERSATIONS = '/home/getConversations';
+export const GET_CONVERSATION = '/home/getConversation';
+export const UPDATE_READ_MESSAGES  = '/home/updateReadMessages';
+export const UPDATE_USER_INFO  = '/home/updateUserInfo';
+export const UPDATE_USER_IMAGE  = '/home/updateUserImage';
+export const UPDATE_USER_PASSWORD  = '/home/updateUserPassword';
+export const SEND_MESSAGE = '/home/sendMessage'
+export const GET_MESSAGES = '/home/getMessages'
+export const GET_PROFILE = '/home/getProfile'
+export const FIND_USER = '/home/searchUsers'
+export const LOGOUT_USER = '/home/logout'
+export const LOGIN_USER = '/auth/login'
+export const REGISTER_USER = '/auth/register'

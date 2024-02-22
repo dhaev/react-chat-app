@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { deleteRequest } from './Axios.js';
-import { useGlobalState } from './GlobalStateProvider';
 
-// API endpoint
-const DELETE_CONVERSATION = '/home/deleteConversationForOne';
+import React, { useState } from 'react';
+
+import { deleteRequest } from '../Utils/Axios';
+import { DELETE_CONVERSATION } from '../Utils/apiEndpoints';
+import { useGlobalState } from '../Provider/GlobalStateProvider';
 
 function ChatHeader() {
-  const { user, selectedChat, setSelectedChat, setChatMessage } = useGlobalState();
+  const { selectedChat, setSelectedChat, setChatMessage } = useGlobalState();
   const [error, setError] = useState(null);
 
   async function handleDeleteConversation(event) {
@@ -18,14 +17,12 @@ function ChatHeader() {
         setChatMessage(new Map());
       }
     } catch (error) {
-      console.error('Error deleting conversation:', error);
-      setError(error);
+      setError("Failed to delete");
     }
   };
 
   async function handleCloseChat(event) {
     event.preventDefault();
-    event.stopPropagation();
     setSelectedChat(null);
   };
 
@@ -35,7 +32,7 @@ function ChatHeader() {
 
   return (
     <div className="d-flex p-2 justify-content-between align-items-center profile">
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className="d-flex  align-items-center" >
         <img src={selectedChat.image} alt="User avatar" className="img-fluid avatar mr-3"  />
         <h6 className='diplayName-middle'>{selectedChat.displayName}</h6>
       </div>
@@ -50,5 +47,6 @@ function ChatHeader() {
     </div>
   );
 }
+
 
 export default ChatHeader;

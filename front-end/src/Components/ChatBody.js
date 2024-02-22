@@ -1,30 +1,31 @@
 import React, { useEffect, useRef } from 'react';
-import { getRequest, deleteRequest } from './Axios.js';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
-import { useGlobalState } from './GlobalStateProvider';
-import socket from './Socket.js';
+
+import socket from '../Utils/Socket.js';
+import { getRequest, deleteRequest } from '../Utils/Axios.js';
+import { GET_MESSAGES, DELETE_MESSAGE } from '../Utils/apiEndpoints';
+import { useGlobalState } from '../Provider/GlobalStateProvider';
 
 // The most general component that renders the chat body
 function ChatBody() {
   const { user, selectedChat, chatMessage, setChatMessage } = useGlobalState();
   const chatContainerRef = useRef(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getRequest('/home/getMessages', { otherUserId: selectedChat?._id });
+        const response = await getRequest(GET_MESSAGES, { otherUserId: selectedChat?._id });
         if (response.status === 200) {
-          const responseMap = new Map(response.data.messages.map(i => [i._id, i]));
-          setChatMessage(new Map(responseMap));
+          const responseMap = new Map(response.data.messages?.map(i => [i._id, i]));
+          setChatMessage(responseMap);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        // handle error
       }
     };
 
     fetchData();
   }, [setChatMessage, selectedChat, user]);
-
-
 
   useEffect(() => {
     const { scrollHeight } = chatContainerRef.current;
@@ -32,8 +33,8 @@ function ChatBody() {
   }, [chatMessage]);
 
   return (
-    <div className="mt-auto" style={{ overflowY: 'auto', overflowX: 'hidden' }} ref={chatContainerRef}>
-      <div className="container fill-space chat-messages d-flex flex-column align-items-start justify-content-end" style={{ overflowX: 'hidden' }}>
+    <div className="mt-auto list"  ref={chatContainerRef}>
+      <div className="container fill-space chat-messages d-flex flex-column align-items-start justify-content-end overflow-x-off" >
         {chatMessage ? (
           Array.from(chatMessage.values()).map((message) => (
             <Message key={message._id} id={message._id} content={message.content} sender={message.sender} />
@@ -55,12 +56,12 @@ function Message({ id, content, sender }) {
   // The function that handles the deletion of a message
   async function handleDeleteMessage() {
     try {
-      const response = await deleteRequest('/home/deleteMessageForOne', { otherUserId: selectedChat?._id, messageId: id });
+      const response = await deleteRequest(DELETE_MESSAGE, { otherUserId: selectedChat?._id, messageId: id });
       if (response.status === 200) {
         socket.emit('deleteMessage',id, user._id, selectedChat?._id);
       }
     } catch (error) {
-      console.error('Error deleting message:', error);
+      // handle error
     }
   };
 

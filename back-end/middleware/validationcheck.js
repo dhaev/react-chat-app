@@ -3,26 +3,34 @@ const { check } = require('express-validator');
 
 // Function to check username
 function checkUsername() {
-  return [
-    check('uname', 'Display Name is required').trim().not().isEmpty().escape(),
-    check('uname', 'Display Name should be at least 5 characters').isLength({ min: 4 }),
-    check('uname', 'Display Name should not exceed 20 characters').isLength({ max: 20 })
-  ];
+  return check('uname')
+    .trim()
+    .not().isEmpty().withMessage('Name is required')
+    .isLength({ min: 4 }).withMessage('Name should be at least 4 characters')
+    .isLength({ max: 20 }).withMessage('Name should not exceed 20 characters')
+    .escape();
 }
 
 // Function to check email
 function checkEmail() {
-  return check('email', 'Please include a valid email').trim().isEmail().normalizeEmail();
+  return check('email')
+    .trim()
+    .not().isEmpty().withMessage('Email is required')
+    .isEmail().withMessage('Please include a valid email')
+    .normalizeEmail();
 }
 
-// Function to check password
+// Function to check Pssword
 function checkPassword(fieldName) {
-  return [
-    check(fieldName, 'Please enter a password with 6 or more characters').trim().isLength({ min: 8 }).escape(),
-    check(fieldName, 'Password should not exceed 20 characters').isLength({ max: 20 }),
-    check(fieldName, 'Password should contain at least one number, one uppercase letter, one lowercase letter, and one special character').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/)
-  ];
+  return check(fieldName)
+    .trim()
+    .not().isEmpty().withMessage(`${fieldName} is required`)
+    .isLength({ min: 8 }).withMessage(`${fieldName} should contain st least 8 or more characters`)
+    .isLength({ max: 20 }).withMessage(`${fieldName} should not exceed 20 characters`)
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/).withMessage(`${fieldName} should contain a number, an upper & lower case letter, and a special character`)
+    .escape();
 }
+
 
 // Function to check ID
 function checkId(fieldName) {

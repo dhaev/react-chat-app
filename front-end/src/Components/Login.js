@@ -1,48 +1,34 @@
-import React, { useState } from 'react';
-import { postRequest } from './Axios.js';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalState } from './GlobalStateProvider';
-import { validateEmail, validatePassword } from './validations.js'; // Import the validation functions
+
+import { postRequest } from '../Utils/Axios.js';
+import { LOGIN_USER } from '../Utils/apiEndpoints';
+import { useGlobalState } from '../Provider/GlobalStateProvider';
+import { validateEmail, validatePassword } from '../Utils/validations.js';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const email = useRef('');
+  const password = useRef('');
   const [error, setError] = useState('');
-  const [emailError, setEmailError] = useState(''); // Add state for email error
-  const [passwordError, setPasswordError] = useState(''); // Add state for password error
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
   const { setUser } = useGlobalState();
 
-  // const loginGoogleUser = async (event) => {
-  //   event.preventDefault(); 
-  //   try {
-  //     const response = await getRequest('/auth/google', null);
-  //     if (response.status === 200) {
-  //       setUser(response.data.user);
-  //       navigate('/home');
-  //     }
-  //   } catch (err) {
-  //     setError('Error logging in');
-  //   }
-  // };
-
-  const loginLocalUser = async (event) => {
+  const handleLoginLocalUser = async (event) => {
     event.preventDefault();
     event.stopPropagation()
-    // setFormSubmitted(true);
 
-    const emailErr = validateEmail(email);
-    const passwordErr = validatePassword(password,'Password');
-    console.log((emailErr || passwordErr))
+    const emailErr = validateEmail(email.current.value);
+    const passwordErr = validatePassword(password.current.value,'Password');
+
     if (emailErr || passwordErr) {
       setEmailError(emailErr);
       setPasswordError(passwordErr);
-      // setError('Please correct the errors before submitting.');
       return;
     } else {
       try {
-        console.log("sending req")
-        const response = await postRequest('/auth/login', { email: email, pw: password });
+        const response = await postRequest(LOGIN_USER, { email: email.current.value, pw: password.current.value });
         if (response.status === 200) {
           setUser(response.data.user);
           localStorage.setItem('loggedIn', true);
@@ -60,7 +46,7 @@ function Login() {
     <section className="container-fluid vh-100">
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col-sm-8 d-flex justify-content-center align-items-center">
-          <div className="card w-50" style={{ borderRadius: "1rem", minWidth: '360px' }}>
+          <div className="card w-50" >
             <div className="card-body ">
               <h3 className="mb-4 text-center">Login</h3>
               {error && <p className="text-danger text-center">{error}</p>}
@@ -68,16 +54,16 @@ function Login() {
                 <label className={`form-label ${emailError ? 'error' : ''}`} htmlFor="email">
                   {emailError || 'Email'}
                 </label>
-                <input type="text" id="email" name="email" className={`form-control form-control-md ${emailError ? 'error-border' : ''}`} onChange={(e) => setEmail(e.target.value)} />
+                <input type="text" id="email" name="email" className={`form-control form-control-md ${emailError ? 'error-border' : ''}`} ref={email} />
               </div>
               <div className="form-outline mb-2">
                 <label className={`form-label ${passwordError ? 'error' : ''}`} htmlFor="password">
                   {passwordError || 'Password'}
                 </label>
-                <input type="password" id="password" name="pw" className={`form-control form-control-md ${passwordError ? 'error-border' : ''}`} onChange={(e) => setPassword(e.target.value)} />
+                <input type="password" id="password" name="pw" className={`form-control form-control-md ${passwordError ? 'error-border' : ''}`} ref={password} />
               </div>
               <div className="col text-center m-">
-                <input className="btn btn-primary btn-md form-control form-control-md " type="submit" onClick={loginLocalUser} value="Login" />
+                <input className="btn btn-primary btn-md form-control form-control-md " type="submit" onClick={handleLoginLocalUser} value="Login" />
               </div>
 
               <hr className="my-2" />

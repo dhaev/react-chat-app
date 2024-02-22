@@ -6,6 +6,25 @@ section {
   font-family: 'Times New Roman', serif;
 }
 
+.list {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.default-logo {
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+}
+
+.card{
+  min-width: 360px;
+}
+
+.overflow-x-off {
+  overflow-x: hidden;
+}
+
 .over-lay{
   background-color: rgb(255, 255, 255);
   max-width: 20%;
@@ -53,10 +72,10 @@ section {
   background-color: rgb(180, 225, 249);
 }
 
-section.container {
-  max-width: 300px;
-  width: 300px;
-}
+/* section.container {
+  min-width: 600px;
+  width: 600px;
+} */
 
 .fill-space {
   flex-grow: 1;

@@ -414,7 +414,17 @@ const{ users, cookie, usersNoConvo, usersConvo} = require('./apitest.users.json'
   //   });
 
   //   // =========================================================================================================
-  //   it('should respond with a 404 status code when conversation not found', async () => {
+  //   it('should respond with a 200  status code and empty array when conversation not found', async () => {
+  //     const userId = '65c6d7d22b1392ad97d84ba8'; // replace with a user ID that causes a server error
+  //     const otherUserId = '65c6999d2b1392ad97d84ba4'; // replace with another user ID that causes a server error
+  //     await request(server)
+  //       .get(`/home/getMessages?userId=${userId}&otherUserId=${otherUserId}`)
+  //       .set('Accept', 'application/json')
+  //       .set('Cookie', [`${cookie}`])
+  //       .expect(404);
+
+   //   // =========================================================================================================
+  //   it('should respond with a 404 status code and empty array when user not found', async () => {
   //     const userId = '65c6d7d22b1392ad97d84ba8'; // replace with a user ID that causes a server error
   //     const otherUserId = '65c6999d2b1392ad97d84ba4'; // replace with another user ID that causes a server error
   //     await request(server)
@@ -436,7 +446,7 @@ const{ users, cookie, usersNoConvo, usersConvo} = require('./apitest.users.json'
 
 
 // // =============================================GET===================================================================
-  // describe('GET /home/getAllConversations', () => {
+  // describe('GET /home/getConversations', () => {
   // usersConvo.forEach(user => {
   //   const userId = user._id.$oid;
   //   const expectedDisplayName = user.displayName;
@@ -445,7 +455,7 @@ const{ users, cookie, usersNoConvo, usersConvo} = require('./apitest.users.json'
   //   it('should respond with json containing conversation details and unread message count', async () => {
   //     // const userId = 'validUserId'; // replace with a valid user ID
   //     const res = await request(server)
-  //       .get(`/home/getAllConversations?userId=${userId}`)
+  //       .get(`/home/getConversations?userId=${userId}`)
   //       .set('Accept', 'application/json')
   //       .set('Cookie', [`${cookie}`])
   //       // .expect('Content-Type', /json/)
@@ -467,7 +477,7 @@ const{ users, cookie, usersNoConvo, usersConvo} = require('./apitest.users.json'
   //   it('should respond with a 404 status code when no conversations are found', async () => {
   //     // const userId = 'userIdWithNoConversations'; // replace with a user ID that has no conversations
   //     const res = await request(server)
-  //       .get(`/home/getAllConversations?userId=${userId}`)
+  //       .get(`/home/getConversations?userId=${userId}`)
   //       .set('Accept', 'application/json')
   //       .set('Cookie', [`${cookie}`])
   //       .expect(200);
@@ -483,7 +493,7 @@ const{ users, cookie, usersNoConvo, usersConvo} = require('./apitest.users.json'
  
   //   // it('should respond with a 400 status code when a query parameter is missing', async () => {
   //   //   await request(server)
-  //   //     .get(`/home/getAllConversations`)
+  //   //     .get(`/home/getConversations`)
   //   //     .set('Accept', 'application/json')
   //   //     .expect(400);
   //   // });
@@ -492,7 +502,7 @@ const{ users, cookie, usersNoConvo, usersConvo} = require('./apitest.users.json'
   //   // it('should respond with a 500 status code when the server encounters an error', async () => {
   //   //   const userId = 'userIdCausingServerError'; // replace with a user ID that causes a server error
   //   //   await request(server)
-  //   //     .get(`/home/getAllConversations?userid=${userId}`)
+  //   //     .get(`/home/getConversations?userid=${userId}`)
   //   //     .set('Accept', 'application/json')
   //   //     .expect(500);
   //   // });

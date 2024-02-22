@@ -1,6 +1,6 @@
 import React, { createContext, useContext,useState } from 'react';
-import UpdateProfile from './UpdateProfile';
-import UpdatePassword from './UpdatePassword';
+import UpdateProfile from '../Components/UpdateProfile';
+import UpdatePassword from '../Components/UpdatePassword';
 
 // Create a Context object
 export const SettingContext = createContext();
