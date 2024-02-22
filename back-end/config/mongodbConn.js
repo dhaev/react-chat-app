@@ -6,7 +6,7 @@ const connectToDB = async () => {
         autoIndex: true
     });
   } catch (error) {
-    console.error(error);
+
   }
 };
 
