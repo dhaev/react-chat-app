@@ -16,12 +16,12 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
     res.status(200).json({message: "login successful", user: req.user});
 });
 
-router.post('/login', [checkEmail(), ...checkPassword('pw')], passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+router.post('/login', [checkEmail(), checkPassword('pw')], passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
     console.log("logged in", req.user)
     res.status(200).json({message: "login successful", user: req.user});
 });
 
-router.post('/register',  [...checkUsername(), checkEmail(), ...checkPassword('pw')], async (req, res, next) => {
+router.post('/register',  [checkUsername(), checkEmail(), checkPassword('pw')], async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const firstError = errors.array()[0];

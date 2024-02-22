@@ -1,7 +1,10 @@
-import React, { useState, useEffect,useCallback  } from 'react';
+// React related imports
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalState } from './GlobalStateProvider';
-import { getRequest } from './Axios.js';
+
+import { getRequest } from '../Utils/Axios.js';
+import { LOGOUT_USER } from '../Utils/apiEndpoints';
+import { useGlobalState } from '../Provider/GlobalStateProvider';
 
 function UserProfile() {
   const { user, setUser } = useGlobalState();
@@ -10,27 +13,25 @@ function UserProfile() {
 
   const logout = useCallback(async () => {
     try {
-      // navigate('/login', { replace: true });
-      const response = await getRequest('/home/logout', null);
+      const response = await getRequest(LOGOUT_USER, null);
       if (response.status === 200) {
-        console.log(response);
         localStorage.removeItem('loggedIn');
         setUser(null);
       }
     } catch (error) {
-      console.error('Error logging out:', error);
+      // handle error
     } 
-  }, []);
+  }, [setUser]);
 
   useEffect(() => {
     if (loggingOut) {
       logout();      
     }
-  }, [loggingOut,logout]);
+  }, [loggingOut, logout]);
 
   return (
-    <div className="d-flex p-2 justify-content-between align-items-center profile" style={{ overflowY: 'hidden', overflowX: 'hidden' }}>
-      <img src={`http://192.168.2.19:5000/${user.image}`} alt="" className="img-fluid avatar" />
+    <div className="d-flex p-2 justify-content-between align-items-center profile">
+      <img src={user.image} alt="" className="img-fluid avatar" />
       <div className='d-flex justify-content-center align-items-center'>
         <button className="btn" onMouseDown={(e) => { e.stopPropagation(); setLoggingOut(true); }}>
           <i className="fa fa-sign-out"></i>

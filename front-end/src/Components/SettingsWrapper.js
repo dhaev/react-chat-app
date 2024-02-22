@@ -1,6 +1,6 @@
 import SettingMenu from './SettingMenu';
 import SettingContent from './SettingContent';
-import SettingProvider from './SettingProvider';
+import SettingProvider from '../Provider/SettingProvider';
 
 function SettingsWrapper() {
 

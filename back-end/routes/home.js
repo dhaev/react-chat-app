@@ -91,8 +91,8 @@ const sendMessage = async (req, res, next) => {
       const senderId = req.user.id
       const sender = await User.findById(senderId);
       const receiver = await User.findById(receiverId);
-      console.log(receiver)
-      if (!sender || !receiver) {
+
+      if (!receiver) {
         return res.status(404).json({ message: 'user not found' });
       }
 
@@ -154,12 +154,13 @@ try {
   // console.log("getMessages: ", (conversations[0]?.messages?.length > 0) ? true : false)
   // console.log("getMessages: ", (conversations[0]))
   // console.log("getMessages: ", (conversations[0]?.messages))
+  let messages
     if(conversations?.length > 0){
-    const messages = conversations[0].messages
+    messages = conversations[0].messages
     // Return the conversations directly
     return res.status(200).json({messages});
   }else{
-    return res.status(404).json({ message: 'Conversation not found' });
+    return res.status(200).json({ message: 'Conversation not found', messages:[] });
   }
 
   if(!conversations){
@@ -176,8 +177,6 @@ const getProfile =  async (req, res, next) => {
   try { 
     // const userId = req.user.id;
     const userId = req.user.id;
-    console.log("find csrf token ", req)
-
     const user = await User.findOne({ 
       _id:userId
     },'_id displayName email image');
@@ -191,11 +190,10 @@ const getProfile =  async (req, res, next) => {
   }
 }
 
-//Function to getAllConversations
-const getAllConversations = async (req, res, next) => {
+//Function to getConversations
+const getConversations = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log("berrors ",  errors.array()[0])
     return res.status(400).json({ error: errors.array()[0] });
   }
 
@@ -247,7 +245,6 @@ const getAllConversations = async (req, res, next) => {
         }
       }
     ]);
-     console.log("getconvs: ", result)
 
     if(result?.length > 0){
       return res.status(200).json({user: result});
@@ -266,8 +263,8 @@ const getAllConversations = async (req, res, next) => {
   }
 }
 
-//Function to getSpecificConversation
-const getSpecificConversation = async (req, res, next) => {
+//Function to getConversation
+const getConversation = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log("berrors ",  errors.array()[0])
@@ -632,10 +629,10 @@ router.get("/getProfile",getProfile);
 
 
 //=================================get user chatlist / convos==========================================================================
-router.get('/getAllConversations', getAllConversations);
+router.get('/getConversations', getConversations);
 
 //===================
-router.get('/getSpecificConversation', [ checkId('otherUserId')], getSpecificConversation);
+router.get('/getConversation', [ checkId('otherUserId')], getConversation);
 
 //================================================ Delete a message for one participant================================================
 router.delete('/deleteMessageForOne',[  checkId('otherUserId'), checkId('messageId')],deleteMessageForOne );
@@ -647,10 +644,10 @@ router.put('/updateReadMessages',  [ checkId('otherUserId')],updateReadMessages 
 //====================seacrch================
 router.get('/searchUsers', [checkContent('searchQuery')], searchUsers );
 
-router.put('/updateUserInfo',[...checkUsername(), checkEmail(), ...checkPassword()],updateUserInfo)
+router.put('/updateUserInfo',[checkUsername(), checkEmail(), checkPassword()],updateUserInfo)
 router.put('/updateUserImage',upload.single('image'),updateUserImage)
 
-router.put('/updateUserPassword',[ ...checkPassword('oldPassword'), ...checkPassword('newPassword')],updateUserPassword)
+router.put('/updateUserPassword',[ checkPassword('oldPassword'), checkPassword('newPassword')],updateUserPassword)
 
 router.get('/logout', logout);
 

@@ -7,14 +7,14 @@ const MongoStore = require("connect-mongo");
 const connectToDB = require("./config/mongodbConn");
 const cookieParser = require('cookie-parser');
 const passportSocketIo = require('passport.socketio');
-const { ensureAuth, ensureGuest,onAuthorizeSuccess,onAuthorizeFail} = require('./middleware/auth');
+const { ensureAuth, ensureGuest, onAuthorizeSuccess, onAuthorizeFail } = require('./middleware/auth');
 const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
 const http = require('http');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require('path');
-const csrf = require('csurf'); 
+const csrf = require('csurf');
 const corsOptions = require('./config/corsOptions')
 
 const PORT = process.env.PORT || 5000
@@ -73,8 +73,8 @@ app.use('/images/', express.static(path.join(__dirname, 'images')));
 
 
 app.use('/', require('./routes/index'));
-app.use('/auth',ensureGuest,  require('./routes/auth'));
-app.use('/home',ensureAuth,  require('./routes/home'));
+app.use('/auth', ensureGuest, require('./routes/auth'));
+app.use('/home', ensureAuth, require('./routes/home'));
 
 // app.all('*', (req, res) => {
 //   res.status(404).json({ message: '404 Not Found' })
@@ -95,14 +95,11 @@ io.on('connection', socket => {
   socket.join(socket.request.user.id)
   console.log(`User ${socket.request.user.id} connected with socket ${socket.id}`);
 
-  socket.on('sendMessage', (msg, newConvo) => {
-    console.log(`User ${msg.sender} is sending message to ${msg.receiver}`);
-    io.to(msg.sender).emit('receiveMessage', msg);
+  socket.on('sendMessage', (msg, userDetails, otherUserDetails) => {
+    io.to(msg.sender).emit('receiveMessage', msg, otherUserDetails);
     if (io.sockets.adapter.rooms.get(msg.receiver)) {
       try {
-        
-        socket.to(msg.receiver).emit('receiveMessage', msg);
-        console.log(`User ${msg.sender} sent ${msg.content} to ${msg.receiver}`);
+        socket.to(msg.receiver).emit('receiveMessage', msg, userDetails);
       } catch (error) {
         console.error("unable to send message " + error)
       }
@@ -119,8 +116,8 @@ io.on('connection', socket => {
 app.use(errorHandler)
 
 mongoose.connection.once('open', () => {
-    console.log('Connected to mongodbConn')
-    server.listen(PORT, "192.168.2.19", () => console.log(`server running on port ${PORT}`));
+  console.log('Connected to mongodbConn')
+  server.listen(PORT, "192.168.2.17", () => console.log(`server running on port ${PORT}`));
 });
 
 mongoose.connection.on('error', err => {
