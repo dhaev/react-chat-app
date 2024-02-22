@@ -13,12 +13,12 @@ export const useFetchData = (url, params) => {
         if (response.status === 200) {
           setData(response.data);
         } else {
-          console.error('Error fetching data: Unexpected response status', response.status);
-          setError('Error fetching data: Unexpected response status ' + response.status);
+  
+          setError('Error fetching data');
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data: ' + error);
+        
+        setError('Error fetching data');
       }
     };
 

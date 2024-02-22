@@ -101,7 +101,7 @@ io.on('connection', socket => {
       try {
         socket.to(msg.receiver).emit('receiveMessage', msg, userDetails);
       } catch (error) {
-        console.error("unable to send message " + error)
+        // console.error("unable to send message " + error)
       }
     }
   })
@@ -121,7 +121,7 @@ mongoose.connection.once('open', () => {
 });
 
 mongoose.connection.on('error', err => {
-  console.log(err)
+
   logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
 })
 

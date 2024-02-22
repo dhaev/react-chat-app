@@ -18,7 +18,7 @@ const router = express.Router();
 
 // Middleware for error handling
 const handleError = (err, req, res, next) => {
-  console.error(err);
+
   res.status(500).send('Server error');
 };
 
@@ -267,7 +267,6 @@ const getConversations = async (req, res, next) => {
 const getConversation = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log("berrors ",  errors.array()[0])
     return res.status(400).json({ error: errors.array()[0] });
   }
 
@@ -313,7 +312,7 @@ const getConversation = async (req, res, next) => {
     // Return the other participants' details and the number of unread messages
     return res.status(200).json(result);
   } catch (error) {
-    console.error(error);
+
     res.status(500).json({ message: 'Server Error' });
   }
 }
@@ -383,7 +382,7 @@ const updateReadMessages = async (req, res, next) => {
       arrayFilters: [{ 'elem.user': userId }],
       new: true
     });
-    console.log(updatedConversation);
+
     const {acknowledged, modifiedCount, matchedCount} = updatedConversation
     if (acknowledged && modifiedCount && matchedCount) {
       return res.status(200).json({ message: 'messages read' });
@@ -393,7 +392,6 @@ const updateReadMessages = async (req, res, next) => {
       return res.status(404).json({ error: 'Conversation not found.' });
   }
   } catch(err){
-    console.error("Encountered error updating conversations: ", err);
     res.status(500).json({ error: 'An error occurred while updating the conversation' });
   }
 }
@@ -422,7 +420,7 @@ const searchUsers = async (req, res, next) => {
 
     res.status(200).json(users);
   } catch (err) {
-    console.error("Encountered error updating conversations: ", err);
+
     res.status(500).json({ error: 'An error occurred while searching for user' });
   }
 }
@@ -448,7 +446,7 @@ const deleteConversationForOne = async (req, res, next) => {
     }, {
       $pull: { 'messages.$[].include': userId }
     });
-    console.log(updatedConversation);
+
     const {acknowledged, modifiedCount, matchedCount} = updatedConversation
     if (acknowledged && modifiedCount && matchedCount) {
       return res.status(200).json({ message: 'Conversation deleted' });
@@ -548,7 +546,7 @@ const updateUserInfo = async (req, res, next) => {
       { new: true}, // options
     
     );
-    console.log(updateUser);
+
     if (!updateUser) {
       return res.status(404).json({ error: 'Failed to update user .' });    
     }
@@ -569,9 +567,7 @@ const updateUserImage = async (req, res,next) => {checkUsername, checkEmail, che
   if (!req.file) {
     return res.status(400).json({ error: 'No file attached' });
   }
-  // console.log(req.file.path)
-  // req.file is the 'image' file
-  // req.body will hold the text fields, if there were any
+
 const tempFilePath = req.file.path + '.tmp';
   try{
 
@@ -582,29 +578,22 @@ const tempFilePath = req.file.path + '.tmp';
         fs.renameSync(tempFilePath, req.file.path); 
     
   const { userId } = req.body;
-  console.log("logging userId : ",userId)
+
   // Get the user
   const user = await User.findOne({ _id: userId }); // replace with actual user ID
-  console.log("logging user : ",user)
-
   // Delete the old image
   if (user?.image) {
     if (fs.existsSync(user?.image)) {
       fs.unlink(user?.image, (err) => {
         if (err) {
-          console.error(err);
           throw err;
         }
-        console.log('File deleted successfully');
       });
-    } else {
-      console.log('No file found to delete');
-    }
+    } 
   }
 
   // Update the user's image path
   user.image = req.file.path;
-  console.log("logging imahepath : ",req.file.path)
 
   await user.save();
 
