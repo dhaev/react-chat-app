@@ -18,7 +18,7 @@ const UpdatePassword = () => {
     const handleUpdatePassword = async (event) => {
         event.preventDefault();
 
-        const oldPasswordErr = validatePassword(oldPassword.current.value,'Old password')
+        const oldPasswordErr = validatePassword(oldPassword.current.value, 'Old password')
         const newPasswordErr = validatePassword(newPassword.current.value, 'New password')
         if (oldPasswordErr || newPasswordErr) {
             setOldPasswordError(oldPasswordErr);

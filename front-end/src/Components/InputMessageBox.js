@@ -12,13 +12,16 @@ function InputMessageBox() {
 
   const handleSendMessage = async (event) => {
     event.preventDefault();
+    if(!refMessageInput.current.value || refMessageInput.current.value.trim() === "" || !selectedChat?._id || selectedChat?._id.trim() === "") return;
     try {
       const response = await postRequest(SEND_MESSAGE, {
         content: refMessageInput.current.value,
         receiverId: selectedChat?._id,
       });
+      refMessageInput.current.value = ''
 
       if(response.status === 200) {
+
         const { email, ...userDetails } = user;
         userConversation.has(selectedChat?._id) ? socket.emit('sendMessage',response.data.newMessage) : socket.emit('sendMessage',response.data.newMessage,userDetails, selectedChat)
       }

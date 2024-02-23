@@ -20,12 +20,12 @@ function UserProfile() {
       }
     } catch (error) {
       // handle error
-    } 
+    }
   }, [setUser]);
 
   useEffect(() => {
     if (loggingOut) {
-      logout();      
+      logout();
     }
   }, [loggingOut, logout]);
 

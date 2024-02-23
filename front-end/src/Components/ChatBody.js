@@ -33,8 +33,8 @@ function ChatBody() {
   }, [chatMessage]);
 
   return (
-    <div className="mt-auto list"  ref={chatContainerRef}>
-      <div className="container fill-space chat-messages d-flex flex-column align-items-start justify-content-end overflow-x-off" >
+    <div className="mt-auto message-list"  ref={chatContainerRef}>
+      <div className="container message-list fill-space chat-messages d-flex flex-column align-items-start justify-content-end overflow-x-off" >
         {chatMessage ? (
           Array.from(chatMessage.values()).map((message) => (
             <Message key={message._id} id={message._id} content={message.content} sender={message.sender} />
