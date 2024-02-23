@@ -4,8 +4,6 @@ import SettingProvider from '../Provider/SettingProvider';
 
 function SettingsWrapper() {
 
-
-
   return (
     <div className="container-fluid row g-0 vh-100">
       <SettingProvider>

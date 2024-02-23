@@ -21,7 +21,6 @@ const Register = () => {
         const emailErr = validateEmail(email.current.value);
         const passwordErr = validatePassword(password.current.value,'Password');
         const usernameErr = validateUsername(username.current.value);
-        console.log((emailErr || passwordErr))
         if (emailErr || passwordErr || usernameErr) {
             setEmailError(emailErr);
             setPasswordError(passwordErr);
