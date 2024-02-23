@@ -1,7 +1,7 @@
 // validations.js
 
 const validateUsername = (username) => {
-    if (!username) {
+    if (!username.trim()) {
       return 'Name is required';
     } else if (username.length < 4) {
       return 'Name should be at least 4 characters';
@@ -14,7 +14,7 @@ const validateUsername = (username) => {
   
   const validateEmail = (email) => {
     const re = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!email) {
+    if (!email.trim()) {
       return 'Email is required';
     } else if (!re.test(email)) {
       return 'Please include a valid email';
@@ -25,7 +25,7 @@ const validateUsername = (username) => {
   
   const validatePassword = (password, fieldName) => {
     const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?{}|<>]).*$/;
-    if (!password) {
+    if (!password.trim()) {
       return `${fieldName} is required`;
     } else if (password.length < 8) {
       return `${fieldName} should contain at least 8 or more characters`;

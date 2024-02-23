@@ -150,10 +150,6 @@ try {
     { $project: { messages: "$filteredMessages" } }
   ]);
   
-  // console.log("getMessages: ", (conversations?.length > 0) ? true : false)
-  // console.log("getMessages: ", (conversations[0]?.messages?.length > 0) ? true : false)
-  // console.log("getMessages: ", (conversations[0]))
-  // console.log("getMessages: ", (conversations[0]?.messages))
   let messages
     if(conversations?.length > 0){
     messages = conversations[0].messages
@@ -633,7 +629,7 @@ router.put('/updateReadMessages',  [ checkId('otherUserId')],updateReadMessages 
 //====================seacrch================
 router.get('/searchUsers', [checkContent('searchQuery')], searchUsers );
 
-router.put('/updateUserInfo',[checkUsername(), checkEmail(), checkPassword()],updateUserInfo)
+router.put('/updateUserInfo',[checkUsername(), checkEmail()],updateUserInfo)
 router.put('/updateUserImage',upload.single('image'),updateUserImage)
 
 router.put('/updateUserPassword',[ checkPassword('oldPassword'), checkPassword('newPassword')],updateUserPassword)

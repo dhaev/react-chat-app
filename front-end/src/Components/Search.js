@@ -16,7 +16,7 @@ const Search = () => {
   const [data, setData] = useState(null);
 
   const handleSearch = debounce(async () => {
-    if (inputValue.current.value) {
+    if (inputValue.current.value && inputValue.current.value.trim() !=='') {
       try {
         const response = await getRequest( FIND_USER , { searchQuery: inputValue.current.value });
         setData(response.data);
@@ -29,7 +29,7 @@ const Search = () => {
   }, 300);
 
   const popover = (
-    <div className="container-fluid over-lay search-users list" id="search-users" >
+    <div className="container-fluid over-lay search-users chat-list" id="search-users" >
       {(data && data.length > 0) ? data.map((contact) => (
         <ChatListItem
           key={contact._id}

@@ -9,8 +9,7 @@ const UpdateProfile = () => {
                 <div className="card w-50 border-0" >
                     <div className="card-body flex-column d-flex">
                         <UpdateUserImage />
-                        <UpdateUserInfo />
-                        
+                        <UpdateUserInfo />                        
                     </div>
                 </div>
             </div>

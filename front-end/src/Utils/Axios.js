@@ -2,12 +2,11 @@ import axios from 'axios';
 
 export const apiClient = axios.create({
 
-    baseURL: 'http://192.168.2.17:5000/', // replace with base URL
+    baseURL: 'http://192.168.2.19:5000/', // replace with base URL
     withCredentials: true,
 });
 
 export async function getRequest(endpoint, params) {
-    console.log("sending request")
     try {
         const response = await apiClient.get(endpoint, { params: params });
         return response;

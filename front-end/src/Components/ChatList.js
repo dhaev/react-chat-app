@@ -26,7 +26,7 @@ const ChatList = () => {
   }, [setUserConversation]);
 
   return (
-    <div className="container-fluid chat-list chats list"  id="chats">
+    <div className="container-fluid chat-list chats "  id="chats">
       {[...userConversation.entries()].map(([key, contact]) => (
         <ChatListItem
           key={key}

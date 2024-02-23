@@ -16,12 +16,13 @@ function SocketListener() {
 
     async function addNewMessage(newMessage) {
       try {
-        (selectedChat?._id).unreadCount = 0;
+        selectedChat.unreadCount = 0;
         setChatMessage((prevMessages) => {
           return new Map([...prevMessages, [newMessage._id, newMessage]]);
         });
-        putRequest(UPDATE_READ_MESSAGES, { otherUserId: selectedChat?._id });        
+        putRequest(UPDATE_READ_MESSAGES, { otherUserId: selectedChat?._id });
       } catch (error) {
+
         // handle error
       }
     }
@@ -81,7 +82,7 @@ function SocketListener() {
         const isRelevant = isMessageRelevant(selectedChat?._id, user._id, newMessage)
         if (isRelevant) {
           await addNewMessage(newMessage);
-        } 
+        }
         await handleIrrelevantMessage(newMessage, otherUser, isRelevant);
       };
 
