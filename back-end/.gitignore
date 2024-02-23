@@ -5,8 +5,10 @@ node_modules
 #logs
 logs
 
+#images
 images
 
+#uploads
 uploads
 
 test

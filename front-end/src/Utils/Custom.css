@@ -6,7 +6,7 @@ section {
   font-family: 'Times New Roman', serif;
 }
 
-.list {
+.message-list, .chat-list, .list {
   overflow-y: auto;
   overflow-x: hidden;
 }
