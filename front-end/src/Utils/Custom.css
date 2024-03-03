@@ -6,7 +6,7 @@ section {
   font-family: 'Times New Roman', serif;
 }
 
-.message-list, .chat-list, .list {
+.message-list, .chat-list, .list, .search-list {
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -82,9 +82,9 @@ section {
   overflow: auto;
 }
 
-.no-arrow .arrow::after {
+/* .no-arrow .arrow::after {
   display: none;
-}
+} */
 
 .sign-in-logo {
   max-width: 30px;

@@ -29,7 +29,7 @@ const Search = () => {
   }, 300);
 
   const popover = (
-    <div className="container-fluid over-lay search-users chat-list" id="search-users" >
+    <div className="container-fluid over-lay search-users search-list" id="search-users" >
       {(data && data.length > 0) ? data.map((contact) => (
         <ChatListItem
           key={contact._id}
