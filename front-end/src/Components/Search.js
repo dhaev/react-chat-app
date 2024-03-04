@@ -51,7 +51,7 @@ const Search = () => {
             className="form-control"
             ref={inputValue}
             onKeyUp={handleSearch}
-            placeholder='find a user...'
+            placeholder='find users...'
           />
           <button className="btn btn-info fa fa-search"></button>
         </div>

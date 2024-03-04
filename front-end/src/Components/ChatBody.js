@@ -74,7 +74,7 @@ function Message({ id, content, sender }) {
 function CustomPopover({ id, content, item, actionTrigger, sender, user }) {
   const popover = (
     <Popover id={`popover-${id}`}>
-      <Popover.Body>
+      <Popover.Body className='message-popover'>
         {item.map((i) => (
           <div key={i.text} onClick={i.action}>
             {i.text}
