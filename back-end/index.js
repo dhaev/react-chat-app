@@ -14,7 +14,6 @@ const http = require('http');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require('path');
-const csrf = require('csurf');
 const corsOptions = require('./config/corsOptions')
 
 const PORT = process.env.PORT || 5000

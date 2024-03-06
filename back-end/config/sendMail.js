@@ -5,8 +5,8 @@ dotenv.config();
 const sendEmail = (payload)=>{
     const { email, subject, html}= payload
     const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
         auth: {
             user: process.env.MAIL_USERNAME,
             pass: process.env.MAIL_PASSWORD

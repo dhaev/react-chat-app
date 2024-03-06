@@ -4,12 +4,8 @@ node_modules
 
 logs
 
-images
-
 uploads
 
 test
 
 /coverage
-
-package-lock.json

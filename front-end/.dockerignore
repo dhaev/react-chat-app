@@ -1,18 +1,19 @@
 
 node_modules
 
+npm-debug.log
+
 .git
 
+.gitignore
+
+Dockerfile
+
+.dockerignore
+
 .env
-
-logs
-
-images
-
-uploads
 
 test
 
 /coverage
 
-package-lock.json

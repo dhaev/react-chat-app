@@ -25,9 +25,9 @@ function checkPassword(fieldName) {
   return check(fieldName)
     .trim()
     .not().isEmpty().withMessage(`${fieldName} is required`)
-    .isLength({ min: 8 }).withMessage(`${fieldName} should contain st least 8 or more characters`)
+    .isLength({ min: 8 }).withMessage(`${fieldName} requires at least 8 or more characters`)
     .isLength({ max: 20 }).withMessage(`${fieldName} should not exceed 20 characters`)
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/).withMessage(`${fieldName} should contain a number, an upper & lower case letter, and a special character`)
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).*$/).withMessage(`${fieldName} requires a number, an upper & lower case letter, and a special character`)
     .escape();
 }
 

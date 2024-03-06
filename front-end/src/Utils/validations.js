@@ -28,11 +28,11 @@ const validateUsername = (username) => {
     if (!password.trim()) {
       return `${fieldName} is required`;
     } else if (password.length < 8) {
-      return `${fieldName} should contain at least 8 or more characters`;
+      return `${fieldName} requires at least 8 or more characters`;
     } else if (password.length > 20) {
       return `${fieldName} should not exceed 20 characters`;
     } else if (!re.test(password)) {
-      return `${fieldName} should contain a number, an upper & lower case letter, and a special character`;
+      return `${fieldName} requires a number, an upper & lower case letter, and a special character`;
     } else {
       return '';
     }
