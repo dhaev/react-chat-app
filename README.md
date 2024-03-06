@@ -4,7 +4,7 @@ This is a simple chat app designed using MERN stack for instant messaging.
 
 ## Installation
 
-1. Create a `.env` file in the back-end folder using the variables in 'required_variables.txt'
+1. Create a `.env` file in the back-end folder using the variable names in 'required_variables.txt'
 2. Run `docker compose up` in the base folder
 
 ## Note
