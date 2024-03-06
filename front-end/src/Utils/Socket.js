@@ -1,7 +1,6 @@
 // socket.js
 import io from 'socket.io-client';
 
-const socket = io(); // replace with your server address
-
+const socket = io(); 
 
 export default socket;
