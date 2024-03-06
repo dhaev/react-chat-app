@@ -19,8 +19,11 @@ export function useMarkAsRead() {
       });
     }
       } catch (error) {
-        console.error('Error updating read messages:', error);
+        setUserConversation(prev => {
+          return prev;
+        });
       }
+      
     };
   
     return markAsRead;

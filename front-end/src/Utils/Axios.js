@@ -11,8 +11,6 @@ export async function getRequest(endpoint, params) {
         const response = await apiClient.get(endpoint, { params: params });
         return response;
     } catch (error) {
-        console.error(error);
-        console.log(error);
         throw error;
     }
 }
@@ -22,7 +20,6 @@ export async function postRequest(endpoint, data) {
         const response = await apiClient.post(endpoint, data);
         return response;
     } catch (error) {
-        console.error(error);
         throw error;
     }
 }
@@ -32,7 +29,6 @@ export async function deleteRequest(endpoint, data) {
         const response = await apiClient.delete(endpoint, { data: data });
         return response;
     } catch (error) {
-        console.error(error);
         throw error;
     }
 }
@@ -42,7 +38,6 @@ export async function putRequest(endpoint, data) {
         const response = await apiClient.put(endpoint, data);
         return response;
     } catch (error) {
-        console.error(error);
         throw error;
     }
 }
