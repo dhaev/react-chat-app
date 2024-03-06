@@ -66,19 +66,19 @@ app.use(passport.session());
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
-app.use('/uploads/images/', express.static(path.join(__dirname, '/uploads/images')));
 app.use('/images/', express.static(path.join(__dirname, 'images')));
-// app.use('/uploads/videos/', express.static(path.join(__dirname, '/uploads/videos')));
-// app.use('/uploads/others/', express.static(path.join(__dirname, '/uploads/others')));
+app.use('/uploads/images/', express.static(path.join(__dirname, '/uploads/images')));
+app.use('/uploads/videos/', express.static(path.join(__dirname, '/uploads/videos')));
+app.use('/uploads/others/', express.static(path.join(__dirname, '/uploads/others')));
 
 
 app.use('/', require('./routes/index'));
 app.use('/auth', ensureGuest, require('./routes/auth'));
 app.use('/home', ensureAuth, require('./routes/home'));
 
-// app.all('*', (req, res) => {
-//   res.status(404).json({ message: '404 Not Found' })
-// })
+app.all('*', (req, res) => {
+  res.status(404).json({ message: '404 Not Found' })
+})
 app.use(errorHandler)
 
 
@@ -117,7 +117,7 @@ app.use(errorHandler)
 
 mongoose.connection.once('open', () => {
   console.log('Connected to mongodbConn')
-  server.listen(PORT, "192.168.2.19", () => console.log(`server running on port ${PORT}`));
+  server.listen(PORT, () => console.log(`server running on port ${PORT}`));
 });
 
 mongoose.connection.on('error', err => {

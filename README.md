@@ -1,0 +1,5 @@
+required env varaibles:
+DB_STRING=
+PASSPORT_SECRET_KEY=
+MAIL_USERNAME=
+MAIL_PASSWORD=
