@@ -4,5 +4,5 @@ const addToContacts = async (userId, contactId) => {
         { $addToSet: { contacts: contactId } }
     );
 }; 
-  
+
 module.exports = addToContacts;

@@ -34,6 +34,6 @@ const storage = multer.diskStorage({
     filename: function(req, file, cb) {
       cb(null, uuid() + path.extname(file.originalname)); // append the original file extension
     }
-  });
+});
   
-  module.exports  = multer({ storage: storage });
+module.exports  = multer({ storage: storage });

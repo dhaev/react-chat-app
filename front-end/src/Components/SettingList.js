@@ -20,4 +20,4 @@ function SettingList() {
     );
   }
 
-  export default SettingList;
+export default SettingList;

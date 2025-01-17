@@ -5,7 +5,6 @@ import { REGISTER_USER  } from '../Utils/apiEndpoints';
 import { validateUsername, validateEmail, validatePassword } from '../Utils/validations'; // Import the validation functions
 
 const Register = () => {
-
     const username = useRef('');
     const email = useRef('');
     const password = useRef('');

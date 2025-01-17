@@ -44,5 +44,4 @@ const updateUserImage = async (req, res,next) => {
   }
 } 
 
-
 module.exports = updateUserImage;

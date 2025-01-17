@@ -54,5 +54,4 @@ const createNewPassword = async(req,res)=>{
   }
       }
 
-
 module.exports = createNewPassword

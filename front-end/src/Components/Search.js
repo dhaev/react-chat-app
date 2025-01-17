@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react';
 import {OverlayTrigger } from 'react-bootstrap';
-
 import { debounce } from 'lodash';
-
 import { getRequest } from '../Utils/Axios.js';
 import { useMarkAsRead } from '../Hook/useMarkAsRead';
 import { FIND_USER } from '../Utils/apiEndpoints';

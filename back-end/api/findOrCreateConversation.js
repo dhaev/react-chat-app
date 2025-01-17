@@ -32,7 +32,6 @@ const findOrCreateConversation = async (senderId, receiverId, newMessage) => {
     // Save the conversation and return it
     return conversation.save();
   };
-  
-  
+   
 module.exports = findOrCreateConversation;
   

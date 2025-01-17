@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
 import axios from 'axios';
-
 import { useGlobalState } from '../Provider/GlobalStateProvider';
 import SettingsWrapper from './SettingsWrapper';
 import { GET_PROFILE } from '../Utils/apiEndpoints';
@@ -10,7 +8,6 @@ import Register from './Register';
 import Login from './Login';
 import Home from './Home';
 import '../Utils/Custom.css';
-
 
 function AuthWrapper({ children }) {
   const { user } = useGlobalState();

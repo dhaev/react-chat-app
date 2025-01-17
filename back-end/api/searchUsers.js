@@ -30,5 +30,4 @@ const searchUsers = async (req, res, next) => {
     }
   }
 
-
 module.exports = searchUsers;

@@ -34,9 +34,6 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', UserSchema);
 
-
-
-
 const MessageSchema = new mongoose.Schema({
   _id: { 
     type: mongoose.Schema.Types.ObjectId,
@@ -67,7 +64,6 @@ const MessageSchema = new mongoose.Schema({
 });
 const Message = mongoose.model('Message', MessageSchema);
 
-
 const ConversationSchema = new mongoose.Schema({
   participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   messages: [MessageSchema],
@@ -80,7 +76,6 @@ const ConversationSchema = new mongoose.Schema({
   }
 });
 const Conversation = mongoose.model('Conversation', ConversationSchema);
-
 
 const tokenSchema= new mongoose.Schema({
   userId:{

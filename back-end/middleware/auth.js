@@ -22,4 +22,4 @@ module.exports = {
       if (error)
       accept(null, false);
     }
-  }
+}

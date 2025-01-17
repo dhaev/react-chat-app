@@ -43,18 +43,18 @@ function checkId(fieldName) {
   }
   
   // Function to check content
-  function checkContent(fieldName) {
-    return check(fieldName)
-      .trim()
-      .notEmpty().withMessage(`${fieldName} is required`)
-      .isString().withMessage(`${fieldName} must be a string`)
-      .custom(value => {
-        if(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi.test(value)) {
-          throw new Error(`${fieldName} must not include script tags`);
-        }
-        return true;
-      });
-  }
+function checkContent(fieldName) {
+  return check(fieldName)
+    .trim()
+    .notEmpty().withMessage(`${fieldName} is required`)
+    .isString().withMessage(`${fieldName} must be a string`)
+    .custom(value => {
+      if(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi.test(value)) {
+        throw new Error(`${fieldName} must not include script tags`);
+      }
+      return true;
+    });
+}
   
 module.exports = {
   checkUsername,

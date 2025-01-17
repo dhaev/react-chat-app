@@ -1,7 +1,5 @@
-// React related imports
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { getRequest } from '../Utils/Axios.js';
 import { LOGOUT_USER } from '../Utils/apiEndpoints';
 import { useGlobalState } from '../Provider/GlobalStateProvider';

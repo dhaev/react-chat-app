@@ -39,6 +39,5 @@ const updateReadMessages = async (req, res, next) => {
       res.status(500).json({ error: 'An error occurred while updating the conversation' });
     }
   }
-
   
 module.exports = updateReadMessages;

@@ -68,5 +68,4 @@ const getConversations = async (req, res, next) => {
     }
   }
 
-
 module.exports = getConversations;

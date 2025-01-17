@@ -53,7 +53,6 @@ const getConversation = async (req, res, next) => {
   
       res.status(500).json({ message: 'Server Error' });
     }
-  }
-  
+  } 
 
 module.exports = getConversation;

@@ -25,5 +25,4 @@ router.get("/verify-password-reset-link", verifyPasswordResetLink)
 
 router.post("/newPassword", checkPassword('pw'), createNewPassword)
 
-
 module.exports = router;

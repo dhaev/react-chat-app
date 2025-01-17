@@ -17,7 +17,6 @@ const GlobalStateProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [chatMessage, setChatMessage] = useState(new Map());
   const [userConversation, setUserConversation] = useState(new Map());
- 
   const [selectedChat, setSelectedChat] = useState(null);
 
   return (

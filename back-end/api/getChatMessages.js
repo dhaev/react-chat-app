@@ -46,9 +46,8 @@ const getChatMessages = async (req, res, next) => {
     }
     
   } catch (error) {
-    next(error);
-  }
+      next(error);
+    }
   }
 
-  
 module.exports = getChatMessages

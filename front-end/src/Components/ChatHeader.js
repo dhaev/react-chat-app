@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-
 import { deleteRequest } from '../Utils/Axios';
 import { DELETE_CONVERSATION } from '../Utils/apiEndpoints';
 import { useGlobalState } from '../Provider/GlobalStateProvider';
@@ -47,6 +46,5 @@ function ChatHeader() {
     </div>
   );
 }
-
 
 export default ChatHeader;

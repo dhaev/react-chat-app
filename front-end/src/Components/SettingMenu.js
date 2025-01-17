@@ -1,5 +1,4 @@
 import React from 'react';
-
 import SettingHeader from './SettingHeader';
 import SettingList from './SettingList';
 

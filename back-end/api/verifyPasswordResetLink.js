@@ -22,6 +22,5 @@ const verifyPasswordResetLink = async (req, res)=>{
   }
   }
 
-
 module.exports = verifyPasswordResetLink;
 

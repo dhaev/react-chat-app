@@ -21,8 +21,6 @@ const PORT = process.env.PORT || 5000
 // Connect to database
 connectToDB()
 
-
-
 require("./config/googlePassport")(passport);
 require("./config/localPassport")(passport);
 
@@ -30,9 +28,6 @@ const app = express();
 app.use(logger)
 const server = http.createServer(app);
 const io = socketio(server);
-
-
-
 
 // Enable CORS
 app.use(cors(corsOptions));
@@ -70,7 +65,6 @@ app.use('/uploads/images/', express.static(path.join(__dirname, '/uploads/images
 app.use('/uploads/videos/', express.static(path.join(__dirname, '/uploads/videos')));
 app.use('/uploads/others/', express.static(path.join(__dirname, '/uploads/others')));
 
-
 app.use('/', require('./routes/index'));
 app.use('/auth', ensureGuest, require('./routes/auth'));
 app.use('/home', ensureAuth, require('./routes/home'));
@@ -79,7 +73,6 @@ app.all('*', (req, res) => {
   res.status(404).json({ message: '404 Not Found' })
 })
 app.use(errorHandler)
-
 
 io.use(passportSocketIo.authorize({
   cookieParser: cookieParser,
@@ -110,7 +103,6 @@ io.on('connection', socket => {
   });
 
 });
-
 
 app.use(errorHandler)
 

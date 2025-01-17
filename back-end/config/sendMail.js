@@ -26,5 +26,6 @@ const sendEmail = (payload)=>{
         }
         
     })
-    }
-    module.exports = sendEmail;
+}
+
+module.exports = sendEmail;

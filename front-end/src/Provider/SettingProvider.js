@@ -22,9 +22,8 @@ const SettingProvider = ({ children }) => {
         // Add more components as needed
       ];
 
-      const [selectedSettings, setSelectedSettings] = useState(null);
+    const [selectedSettings, setSelectedSettings] = useState(null);
     
-
   return (
     <SettingContext.Provider value={{ settingsList,selectedSettings, setSelectedSettings}}>
       {children}

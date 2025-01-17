@@ -18,7 +18,6 @@ const html = `<b> Hi ${user.displayName}, </b>
 <p> Please, click the link below to reset your password. </p>
 <a href = "${link}"> Reset Password </a>
 `
-
 const payload = {
     email,
     subject:"Password reset request",

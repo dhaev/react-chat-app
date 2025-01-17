@@ -43,7 +43,6 @@ router.put('/updateReadMessages',  [ checkId('otherUserId')],updateReadMessages 
 // Search
 router.get('/searchUsers', [checkContent('searchQuery')], searchUsers );
 
-
 router.use(handleError);
 
 module.exports = router;

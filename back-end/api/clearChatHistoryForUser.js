@@ -36,6 +36,5 @@ const clearChatHistoryForUser = async (req, res, next) => {
       next(error);
     }
   }
-  
 
 module.exports = clearChatHistoryForUser;

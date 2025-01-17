@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useGlobalState } from '../Provider/GlobalStateProvider';
 import { useSetting } from '../Provider/SettingProvider';
 
@@ -23,6 +22,6 @@ function SettingHeader() {
         </button>
       </div>
     );
-  }
+}
 
-  export default SettingHeader;
+export default SettingHeader;

@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-
 import { getRequest } from '../Utils/Axios.js';
 import { useMarkAsRead} from '../Hook/useMarkAsRead';
 import { useGlobalState } from '../Provider/GlobalStateProvider';
 import { GET_CONVERSATIONS  } from '../Utils/apiEndpoints';
 import { ChatListItem } from './UserList.js';
-
 
 const ChatList = () => {
   const { userConversation, setUserConversation, selectedChat, setSelectedChat } = useGlobalState();

@@ -37,6 +37,5 @@ const deleteMessageForUser = async (req, res, next) => {
       next(error);
     }
   };
-  
 
 module.exports = deleteMessageForUser;

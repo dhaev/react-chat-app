@@ -7,8 +7,6 @@ import DefaultDisplay from '../Utils/DefaultDisplay';
 function Home() {
   const { selectedChat} = useGlobalState();
 
-
-
   return (
     <div className="container-fluid row g-0 vh-100">
       <ProfileWrapper />

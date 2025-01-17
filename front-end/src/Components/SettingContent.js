@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useSetting } from '../Provider/SettingProvider';
 
 function SettingContentHeader({components}) {  

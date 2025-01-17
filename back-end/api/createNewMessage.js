@@ -11,5 +11,4 @@ const createNewMessage = (senderId, receiverId, content) => {
     });
   };
 
-  
 module.exports = createNewMessage;

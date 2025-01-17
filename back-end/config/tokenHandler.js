@@ -38,7 +38,8 @@ const generateToken = async(id)=>{
            throw er
         }
     }
-    module.exports = {
+
+module.exports = {
         generateToken,
         isValidToken
     }
