@@ -3,6 +3,6 @@ const addToContacts = async (userId, contactId) => {
         { _id: userId },
         { $addToSet: { contacts: contactId } }
     );
-}; 
+};
 
 module.exports = addToContacts;

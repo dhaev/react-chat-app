@@ -1,6 +1,6 @@
 const express = require('express');
 const { User } = require("../models/databaseSchema");
-const {validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const genPassword = require('../config/passwordUtils').genPassword;
 
 const register = async (req, res, next) => {
@@ -36,7 +36,7 @@ const register = async (req, res, next) => {
 
         // Respond with success message
         res.status(200).json({ message: "Sign up successful" });
- 
+
     } catch (error) {
         res.status(500).json({ message: "internal server error" });
         // Handle error, maybe redirect to an error page

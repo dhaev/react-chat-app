@@ -3,6 +3,6 @@ const removeFromContacts = async (userId, contactId) => {
         { _id: userId },
         { $pull: { contacts: contactId } }
     );
-}; 
-  
+};
+
 module.exports = removeFromContacts;
