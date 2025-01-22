@@ -1,6 +1,5 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 
 on:
@@ -26,6 +25,50 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+
+    # Front-end build and test
+    - name: Install front-end dependencies
+      working-directory: ./front-end
+      run: npm ci
+
+    - name: Build front-end
+      working-directory: ./front-end
+      run: npm run build --if-present
+
+    - name: Test front-end if tests are present
+      working-directory: ./front-end
+      run: |
+        if [ -d "./test" ]; then
+          npm test
+        else
+          echo "No tests directory found. Skipping tests."
+        fi
+
+    # Back-end build and test
+    - name: Install back-end dependencies
+      working-directory: ./back-end
+      run: npm ci
+
+    - name: Build back-end
+      working-directory: ./back-end
+      run: npm run build --if-present
+
+    - name: Test back-end if tests are present
+      working-directory: ./back-end
+      run: |
+        if [ -d "./test" ]; then
+          npm test
+        else
+          echo "No tests directory found. Skipping tests."
+        fi
+
+    # Run front-end on port 3000 and back-end on port 5000
+    - name: Start front-end server
+      working-directory: ./front-end
+      run: |
+        npm start -- --port 3000 &
+
+    - name: Start back-end server
+      working-directory: ./back-end
+      run: |
+        npm start -- --port 5000 &
