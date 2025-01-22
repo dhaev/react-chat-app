@@ -4,8 +4,8 @@ node_modules
 
 logs
 
-uploads
+#uploads
 
-test
+#test
 
 /coverage
