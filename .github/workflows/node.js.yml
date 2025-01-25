@@ -1,10 +1,11 @@
+
 name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 jobs:
   build:
@@ -13,78 +14,29 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        directory: ['front-end', 'back-end']
+    
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '18.20.5'
 
-    # Cache front-end node modules
-    - name: Cache front-end node modules
+    - name: Cache node modules
       uses: actions/cache@v2
       with:
-        path: front-end/node_modules
-        key: ${{ runner.os }}-front-end-${{ hashFiles('front-end/package-lock.json') }}
+        path: ${{ matrix.directory }}/node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles(matrix.directory + '/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-front-end-
+          ${{ runner.os }}-node-
 
-    # Front-end build and test
-    - name: Install front-end dependencies
-      working-directory: ./front-end
-      run: npm ci
-
-    - name: Build front-end
-      working-directory: ./front-end
-      run: npm run build --if-present
-
-    - name: Test front-end if tests are present
-      working-directory: ./front-end
-      run: |
-        if [ -d "./test" ]; then
-          npm test
-        else
-          echo "No tests directory found. Skipping tests."
-        fi
-
-    # Cache back-end node modules
-    - name: Cache back-end node modules
-      uses: actions/cache@v2
-      with:
-        path: back-end/node_modules
-        key: ${{ runner.os }}-back-end-${{ hashFiles('back-end/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-back-end-
-
-    # Back-end build and test
-    - name: Install back-end dependencies
-      working-directory: ./back-end
-      run: npm ci
-
-    - name: Build back-end
-      working-directory: ./back-end
-      run: npm run build --if-present
-
-    - name: Test back-end if tests are present
-      working-directory: ./back-end
-      run: |
-        if [ -d "./test" ]; then
-          npm test
-        else
-          echo "No tests directory found. Skipping tests."
-        fi
-
-    # Run front-end on port 3000 and back-end on port 5000
-    - name: Start front-end server
-      working-directory: ./front-end
-      run: |
-        npm start -- --port 3000 &
-
-    - name: Start back-end server
-      working-directory: ./back-end
-      run: |
-        npm start -- --port 5000 &
+    - name: Install dependencies
+      run: npm install
+      working-directory: ${{ matrix.directory }}
+    
+    - name: Run tests
+      run: npm test
+      working-directory: ${{ matrix.directory }}
