@@ -36,7 +36,7 @@ function Login() {
           setError(response.data.error);
         }
       } catch (err) {
-        setError('Log-in attempt failed');
+        setError('Log-in attempt failed due to incorrect email or password');
       }
     }
   };
