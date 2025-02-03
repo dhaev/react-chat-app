@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const apiClient = axios.create({
 
-    baseURL: "https://web-chat-0nqx.onrender.com", // replace with base URL
+    baseURL: "https://web-chat-0nqx.onrender.com/", // replace with base URL
     withCredentials: true,
 });
 
