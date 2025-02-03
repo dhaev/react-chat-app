@@ -17,3 +17,9 @@
 [] cannot send message to inactive user
 [] delete profile picture
 [] fix bug that updates profil picture without saving
+[] limit windows size.
+[] fix background logo  while resizing window
+[] run preview on client with javascript
+[] remove container on searchlist
+[]try partitioning converations by users, and messages by date
+[]store messagees as a contiguous block of rows

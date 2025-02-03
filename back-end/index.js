@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000
 // Connect to database
 connectToDB()
 
-require("./config/googlePassport")(passport);
+// require("./config/googlePassport")(passport);
 require("./config/localPassport")(passport);
 
 const app = express();
@@ -48,8 +48,8 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // Equals 1 day
     httpOnly: true,
-    sameSite: 'lax',
-    secure: false
+    sameSite: 'None',
+    secure: True
   }
 }))
 
@@ -88,13 +88,17 @@ io.on('connection', socket => {
   console.log(`User ${socket.request.user.id} connected with socket ${socket.id}`);
 
   socket.on('sendMessage', (msg, userDetails, otherUserDetails) => {
+    console.log(msg, userDetails, otherUserDetails);
     io.to(msg.sender).emit('receiveMessage', msg, otherUserDetails);
     if (io.sockets.adapter.rooms.get(msg.receiver)) {
       try {
         socket.to(msg.receiver).emit('receiveMessage', msg, userDetails);
+        console.log("sending...",msg)
       } catch (error) {
-        // console.error("unable to send message " + error)
+        console.error("unable to send message " + error)
       }
+    }else{
+      console.log("User is offline")
     }
   })
 

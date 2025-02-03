@@ -12,7 +12,7 @@ const updateUserImage = async (req, res, next) => {
   try {
 
     await sharp(req.file.path)
-      .resize(500, 500) // replace with your desired dimensions
+      .resize(500, 500) // Change image dimensions
       .toFile(tempFilePath);
 
     fs.renameSync(tempFilePath, req.file.path);

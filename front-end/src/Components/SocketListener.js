@@ -78,6 +78,7 @@ function SocketListener() {
 
     if (socket) {
       const messageListener = async (newMessage, otherUser) => {
+        console.log("received message :", newMessage, otherUser);
         const isRelevant = isMessageRelevant(selectedChat?._id, user._id, newMessage)
         if (isRelevant) {
           await addNewMessage(newMessage);

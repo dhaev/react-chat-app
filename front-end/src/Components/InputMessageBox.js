@@ -18,6 +18,8 @@ function InputMessageBox() {
         receiverId: selectedChat?._id,
       });
       refMessageInput.current.value = ''
+      // const { email, ...userDetails } = user;
+      //   userConversation.has(selectedChat?._id) ? socket.emit('sendMessage',response.data.newMessage) : socket.emit('sendMessage',response.data.newMessage,userDetails, selectedChat)
 
       if(response.status === 200) {
 

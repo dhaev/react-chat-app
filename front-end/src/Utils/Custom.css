@@ -3,6 +3,10 @@
   font-size: 0.9em; /* Adjust the size as needed */
 }
 
+body {
+  background-color: #919191;
+}
+
 .message-popover .popover-arrow {
   display: none !important;
   /* padding: 3px !important;
@@ -131,16 +135,16 @@ section {
   }
 
 .received {
-  background-color: #9cfaa9;
-  box-shadow: 0 0 3px #9cfaa9
+  /* background-color: #9cfaa9; */
+  /* box-shadow: 0 0 3px #9cfaa9 */
   /* border-top-right-radius: 10px;
   border-bottom-right-radius: 10px; */
   /* align-self: flex-start; */
 }
 
 .sent {
-  background-color: #a2e6ee;
-  box-shadow: 0 0 3px #a2e6ee
+  /* background-color: #a2e6ee; */
+  /* box-shadow: 0 0 3px #a2e6ee */
   /* border-top-left-radius: 10px;
   border-bottom-left-radius: 10px; */
   /* align-self: flex-end; */

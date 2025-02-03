@@ -1,5 +1,6 @@
+const mongoose = require('mongoose');
+const addToContacts = require('./addToContacts');
 const { User, Conversation } = require("../models/databaseSchema");
-const findOrCreateConversation = require('../api/findOrCreateConversation');
 
 const findOrCreateConversation = async (senderId, receiverId, newMessage) => {
   // Try to find an existing conversation between the sender and receiver
@@ -14,6 +15,10 @@ const findOrCreateConversation = async (senderId, receiverId, newMessage) => {
       messages: [newMessage],
       unreadMessages: [{ user: receiverId, count: 1 }]
     });
+
+      // Update the contacts list for both the sender and the receiver
+      await addToContacts(senderId, receiverId);
+      await addToContacts(receiverId, senderId);
   } else {
     // If a conversation exists, add the new message to it
     conversation.messages.push(newMessage);
