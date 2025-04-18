@@ -44,12 +44,13 @@ app.use(session({
   secret: process.env.PASSPORT_SECRET_KEY,
   resave: false,
   saveUninitialized: false,
+  name: 'MyCoolWebAppCookieName',
   store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // Equals 1 day
     httpOnly: true,
-    sameSite: 'none',
-    secure: true
+    sameSite: 'lax',
+    secure: false
   }
 }))
 
