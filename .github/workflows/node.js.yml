@@ -27,7 +27,7 @@ jobs:
 
     # Cache front-end node modules
     - name: Cache front-end node modules
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: front-end/node_modules
         key: ${{ runner.os }}-front-end-${{ hashFiles('front-end/package-lock.json') }}
@@ -37,7 +37,7 @@ jobs:
     # Front-end build and test
     - name: Install front-end dependencies
       working-directory: ./front-end
-      run: npm ci
+      run: npm install
 
     - name: Build front-end
       working-directory: ./front-end
@@ -54,7 +54,7 @@ jobs:
 
     # Cache back-end node modules
     - name: Cache back-end node modules
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: back-end/node_modules
         key: ${{ runner.os }}-back-end-${{ hashFiles('back-end/package-lock.json') }}
@@ -64,7 +64,7 @@ jobs:
     # Back-end build and test
     - name: Install back-end dependencies
       working-directory: ./back-end
-      run: npm ci
+      run: npm install
 
     - name: Build back-end
       working-directory: ./back-end

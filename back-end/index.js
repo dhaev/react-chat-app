@@ -10,7 +10,7 @@ const passportSocketIo = require('passport.socketio');
 const { ensureAuth, ensureGuest, onAuthorizeSuccess, onAuthorizeFail } = require('./middleware/auth');
 const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
-const http = require('http');
+const https = require('https');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require('path');
@@ -26,7 +26,7 @@ require("./config/localPassport")(passport);
 
 const app = express();
 app.use(logger)
-const server = http.createServer(app);
+const server = https.createServer(app);
 const io = socketio(server);
 
 // Enable CORS
@@ -44,12 +44,13 @@ app.use(session({
   secret: process.env.PASSPORT_SECRET_KEY,
   resave: false,
   saveUninitialized: false,
+  name: 'MyCoolWebAppCookieName',
   store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // Equals 1 day
     httpOnly: true,
-    sameSite: 'none',
-    secure: true
+    sameSite: 'lax',
+    secure: false
   }
 }))
 
