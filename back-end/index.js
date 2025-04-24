@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   const allowedOrigins = [
     'https://web-chat-cliento.onrender.com',
     'http://web-chat-cliento.onrender.com',
-    'https://localhost:3000'
+    'https://localhost:3000',
     'http://localhost:3000'
   ];
   const origin = req.headers.origin;
