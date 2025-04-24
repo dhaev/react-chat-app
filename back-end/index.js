@@ -14,7 +14,7 @@ const https = require('https');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require('path');
-const corsOptions = require('./config/corsOptions')
+//const corsOptions = require('./config/corsOptions')
 
 const PORT = process.env.PORT || 5000
 
@@ -30,6 +30,11 @@ const server = https.createServer(app);
 const io = socketio(server);
 
 // Enable CORS
+var corsOptions = {
+  origin: 'https://web-chat-cliento.onrender.com',
+  credentials: true,
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 app.use(cors(corsOptions));
 
 // Body parser middleware
