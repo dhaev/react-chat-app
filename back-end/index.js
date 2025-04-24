@@ -10,7 +10,7 @@ const passportSocketIo = require('passport.socketio');
 const { ensureAuth, ensureGuest, onAuthorizeSuccess, onAuthorizeFail } = require('./middleware/auth');
 const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
-const http = require('http');
+const https = require('https');
 const socketio = require('socket.io');
 const cors = require('cors');
 const path = require('path');
@@ -26,7 +26,7 @@ require("./config/localPassport")(passport);
 
 const app = express();
 app.use(logger)
-const server = http.createServer(app);
+const server = https.createServer(app);
 const io = socketio(server);
 
 // Enable CORS
