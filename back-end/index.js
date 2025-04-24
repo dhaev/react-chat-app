@@ -29,13 +29,30 @@ app.use(logger)
 const server = https.createServer(app);
 const io = socketio(server);
 
-// Enable CORS
-var corsOptions = {
-  origin: 'https://web-chat-cliento.onrender.com',
-  credentials: true,
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-app.use(cors(corsOptions));
+// Custom CORS middleware
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    'https://web-chat-cliento.onrender.com',
+    'http://web-chat-cliento.onrender.com',
+    'https://localhost:3000'
+    'http://localhost:3000'
+  ];
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200); // Preflight request
+  }
+
+  next();
+});
 
 // Body parser middleware
 app.use(express.json());
